@@ -8,7 +8,7 @@ about:
   template: jolla
   image: image4.png
   image-shape: rectangle
-  image-width: 30em
+  image-width: 20em
   links:
     - icon: download
       text: Download
