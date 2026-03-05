@@ -1,0 +1,42 @@
+# Colormap
+
+> **Category:** Mega-Polis → Generation → Generation Data Tools  
+> **Node ID:** `SvMegapolisColormap`  
+> **Label:** `ColorMap`  
+> **Tooltip:** Colormap  
+> **Dependencies:** `matplotlib` (used to provide the list of available colormap names; output is the selected name) 
+
+## Functionality
+
+Provides a **colormap name** (string) selected from a predefined list of Matplotlib sequential colormaps.
+
+This node is mainly used as a helper to feed a colormap identifier into other nodes that require a colormap string (e.g., network colouring, plots, value-to-colour mapping).
+
+## Inputs
+
+This node has **no input sockets**. 
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| colormap (`sequential`) | Enum | `inferno` | Selects the sequential colormap theme to output.
+
+### Available colormaps
+
+`viridis`, `plasma`, `inferno`, `magma`, `cividis`, `Greys`, `Purples`, `Blues`, `Greens`, `Oranges`, `Reds`, `YlOrBr`, `YlOrRd`, `OrRd`, `PuRd`, `RdPu`, `BuPu`, `GnBu`, `PuBu`, `YlGnBu`, `PuBuGn`, `BuGn`, `YlGn`, `binary`, `gist_yarg`, `gist_gray`, `gray`, `bone`, `pink`, `spring`, `summer`, `autumn`, `winter`, `cool`, `Wistia`, `hot`, `afmhot`, `gist_heat`, `copper`. 
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Colormap | SvStringsSocket | The selected colormap name (string). 
+
+## Example
+
+### Use a colormap for network colouring
+
+1. Add **Colormap**.
+2. Choose `viridis` (or any other option) in the dropdown.
+3. Connect **Colormap → Colour Map** input of a node that expects a colormap string (e.g., *Network Analyses* edge colouring).
+4. Run downstream node to generate coloured outputs.

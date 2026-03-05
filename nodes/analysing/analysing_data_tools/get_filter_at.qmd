@@ -1,0 +1,69 @@
+# Get Feature At
+
+> **Category:** Mega-Polis → Analysis → Analysis Data Tools   
+> **Node ID:** `SvMegapolisGetFeatureAt`  
+> **Tooltip:** Get a value from a DataFrame at a given index and column  
+> **Dependencies:** `pandas`  
+
+## Functionality
+
+Extracts a single value from a **Pandas DataFrame** at a specified **row index** and **column name**.
+
+Internally, the node retrieves the value using standard Pandas indexing (e.g., `.loc[]` or `.iloc[]` depending on implementation) and outputs the selected element as a Sverchok-compatible value stream.
+
+This node is useful when:
+
+- You need one specific attribute value
+- You want to drive geometry or parameters from a single record
+- You are building rule-based or indexed workflows
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dataframe | SvStringsSocket | Input Pandas DataFrame. Required for execution. |
+| Index | SvStringsSocket | Row index (integer or label depending on DataFrame index). |
+| Column | SvStringsSocket | Column name from which the value will be extracted. |
+
+All three inputs must be linked for the node to execute.
+
+## Parameters
+
+This node has no exposed UI parameters.
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Feature Value | SvStringsSocket | The extracted value at the specified index and column. |
+
+## Example
+
+### Retrieve a building height
+
+Given a DataFrame:
+
+| id | height | landuse |
+|----|--------|---------|
+| 0  | 12.5   | residential |
+| 1  | 18.0   | commercial |
+
+1. Connect:
+   - Dataframe → table above
+   - Index → `1`
+   - Column → `"height"`
+
+Output:
+- `18.0`
+
+### Drive geometry from a single record
+
+1. Extract `"area"` from row `5`.
+2. Use the output value to scale or extrude geometry downstream.
+
+## Notes
+
+- The provided **Index** must exist in the DataFrame. If not, the node may raise an error.
+- The **Column** must match exactly a column name in the DataFrame.
+- Behavior depends on whether the DataFrame uses default integer indexing or custom labels.
+- Output follows Sverchok data conventions (wrapped as needed).

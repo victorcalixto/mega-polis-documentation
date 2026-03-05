@@ -1,0 +1,85 @@
+# Pandas DataFrame
+
+> **Category:** Mega-Polis → Gathering → Gathering Data Tools  
+> **Node ID:** `SvMegapolisPandasDataframe`  
+> **Tooltip:** Create a Pandas DataFrame  
+> **Dependencies:** `pandas`  
+
+## Functionality
+
+Creates a **Pandas DataFrame** from incoming structured data inside Sverchok.  
+The node is designed as a bridge between list-based Sverchok data and table-based workflows using Pandas.
+
+It accepts lists (columns or records), converts them into a DataFrame object, and outputs the resulting table for use in downstream analysis, filtering, and mapping nodes.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Data | SvStringsSocket | Input data used to build the DataFrame. Typically a list of values, nested lists, or structured records. |
+| Columns | SvStringsSocket | Optional list of column names to assign to the DataFrame. |
+
+## Parameters
+
+This node has no exposed UI parameters.
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| DataFrame | SvStringsSocket | A Pandas DataFrame created from the input data and column labels. |
+
+## Example
+
+### Create a simple table
+
+Input:
+- Data → `[[10, 20, 30], [40, 50, 60]]`
+- Columns → `["A", "B", "C"]`
+
+Output DataFrame:
+
+| A | B | C |
+|---|---|---|
+| 10 | 20 | 30 |
+| 40 | 50 | 60 |
+
+### Create a single-column DataFrame
+
+Input:
+- Data → `[100, 200, 300]`
+- Columns → `["Height"]`
+
+Output:
+
+| Height |
+|---|
+| 100 |
+| 200 |
+| 300 |
+
+### Typical uses
+
+- Convert lists from:
+  - CSV
+  - GIS attributes
+  - API results
+- Prepare data for:
+  - Filtering nodes
+  - Grouping and aggregation
+  - Statistical analysis
+  - Mapping attributes to geometry
+
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/10_pandas_dataframe.png)
+
+
+## Notes
+
+- If **Columns** is not provided, Pandas assigns default column names (`0`, `1`, `2`, ...).
+- Works with:
+  - Flat lists
+  - Nested lists
+  - Structured records
+- Output is a full Pandas DataFrame object that can be passed to other Mega-Polis nodes expecting tabular input.
+

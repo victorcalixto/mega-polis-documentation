@@ -1,0 +1,76 @@
+---
+title: "About"
+---
+
+This project is a modular, node-based computational environment developed within Blender using Sverchok. It integrates data gathering, spatial analysis, generative modelling, and interactive visualisation into a single coherent workflow.
+
+The system was developed as part of a doctoral research project focused on computational tool development for data-driven urban design.
+
+The broader conceptual and technical development can be accessed here:  
+[Computational Development Chapter](https://www.victorcalixto.xyz/phd_thesis/ct-development.html)
+
+---
+
+# Conceptual Framework
+
+The architecture is structured around a layered computational framework that organises how data, tools, and design processes interact.
+
+![Framework System Diagram](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/framework_system.png)
+
+It establishes a structured relationship between:
+
+- Contextual data  
+- Computational toolkit  
+- Generative systems  
+- Visualisation and deployment  
+
+Rather than a linear workflow, the framework supports modular recombination and iterative loops.
+
+---
+
+# Node Architecture
+
+The node system reflects this framework and is organised into four primary domains:
+
+- **Gathering** — contextual and structured data integration  
+- **Analysing** — metric computation and quantitative evaluation  
+- **Generating** — parametric transformation and geometry construction  
+- **Visualising** — interactive representation and deployment  
+
+Each domain corresponds to a distinct computational responsibility while remaining interoperable within the same node tree.
+
+The structure aligns with Sverchok’s evaluation model, where nodes execute when linked, pass structured outputs downstream, and maintain explicit data typing:  
+[Sverchok Tree Evaluation System](https://nortikin.github.io/sverchok/docs/tree_evaluation_system.html)
+
+---
+
+# Scope
+
+The environment supports:
+
+- GIS vector and raster integration  
+- LiDAR and terrain processing  
+- Street network analysis  
+- Statistical and machine learning workflows  
+- Parametric geometry generation  
+- Dashboard creation and web deployment  
+- Interactive map-based visualisation  
+- VR-ready exports  
+
+It bridges computational design, spatial data science, and interactive communication inside a unified node-based ecosystem.
+
+---
+
+# Development Context
+
+The system was developed during doctoral research and evolved through iterative experimentation, tool refinement, and integration of open-source computational technologies.
+
+Its structure reflects a synthesis of:
+
+- GIS and spatial analytics  
+- Network science  
+- Data science workflows  
+- Parametric modelling  
+- Interactive dashboard systems  
+
+The result is a coherent computational architecture where contextual data, analytical methods, generative systems, and communicative outputs operate as distinct yet interconnected components.

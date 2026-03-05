@@ -1,0 +1,82 @@
+# Correlation With
+
+> **Category:** Mega-Polis → Analysis → Analysis Data Tools    
+> **Node ID:** `SvMegapolisCorrelationWith`  
+> **Tooltip:** Correlates a Dataframe with another Dataframe or Series  
+> **Dependencies:** `pandas`  
+
+## Functionality
+
+Computes correlation values between:
+
+- A **DataFrame and another DataFrame**, or  
+- A **DataFrame and a Series**
+
+using Pandas correlation methods.
+
+Internally, the node uses Pandas correlation functions (`df.corrwith(...)`) to compute column-wise correlations between aligned objects.
+
+This node is useful when comparing:
+
+- Two datasets with matching structure
+- A dataset against a reference variable (e.g., compare all features against “height”)
+- Time-series datasets
+- Model predictions vs. ground truth
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dataframe A | SvStringsSocket | Primary Pandas DataFrame. |
+| Dataframe B / Series | SvStringsSocket | Secondary DataFrame or Pandas Series to correlate with. |
+
+Both sockets must be linked for the node to execute.
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| Method (`correlation`) | Enum | `pearson` | Correlation method used in `corrwith(...)`. |
+
+### Available methods
+
+- `pearson`
+- `kendall`
+- `spearman`
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Correlation | SvStringsSocket | Resulting correlation values (Pandas Series) returned as a list-wrapped object. |
+
+## Example
+
+### Correlate all features against one column
+
+1. Use **Get Pandas Feature** to extract a column (e.g., `"height"`).
+2. Connect:
+   - Full DataFrame → **Dataframe A**
+   - Extracted Series → **Dataframe B / Series**
+3. Choose `pearson`.
+4. Output:
+   - Correlation values for each numeric column relative to `"height"`.
+
+### Compare two DataFrames
+
+1. Connect:
+   - DataFrame A (observations)
+   - DataFrame B (model predictions)
+2. Choose `spearman` to measure rank similarity.
+3. Output:
+   - Column-wise correlation scores.
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/20_correlation.png)
+
+## Notes / gotchas
+
+- Both inputs must have aligned indices for meaningful results.
+- Non-numeric columns are ignored by Pandas.
+- Output is wrapped in a list (`[result]`) following Sverchok data conventions.
+- If DataFrame shapes differ or indices are misaligned, correlation values may be NaN.
+```

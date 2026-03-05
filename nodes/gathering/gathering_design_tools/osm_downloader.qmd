@@ -1,0 +1,166 @@
+# OSM Downloader
+
+> **Category:** Mega-Polis → Gathering → Gathering Design Tools  
+> **Node ID:** `SvMegapolisOSMDownloader`  
+> **Tooltip:** Download an OpenStreetMap file  
+> **Dependencies:** osmnx  
+
+## Functionality
+
+Downloads geospatial features from OpenStreetMap using **osmnx** and saves them locally as a **GeoJSON** file.
+
+The node supports four different spatial query methods:
+
+- Address + distance radius  
+- Place name  
+- Coordinate point + distance radius  
+- Bounding box (North/South/East/West)  
+
+A selected **feature tag** (e.g., building, amenity, highway, landuse, etc.) is used to build an OSM query dictionary.  
+The resulting geometries are filtered to keep relevant attributes and then written to disk as a GeoJSON file using the pattern:
+
+`folder_path/location_feature.geojson`
+
+The node outputs the downloaded dataset as a message/object for downstream workflows.
+
+## Inputs
+
+### Dynamic inputs (depend on `download_method`)
+
+| Socket | Type | Description |
+|---|---|---|
+| Address | SvStringsSocket | Address string used as center point (Address mode) |
+| Place | SvStringsSocket | Place name for geocoded boundary download (Place mode) |
+| Coordinate_X | SvStringsSocket | Longitude for point-based query (Point mode) |
+| Coordinate_Y | SvStringsSocket | Latitude for point-based query (Point mode) |
+| North | SvStringsSocket | Northern boundary coordinate (BBox mode) |
+| South | SvStringsSocket | Southern boundary coordinate (BBox mode) |
+| East | SvStringsSocket | Eastern boundary coordinate (BBox mode) |
+| West | SvStringsSocket | Western boundary coordinate (BBox mode) |
+| Distance | SvStringsSocket | Radius distance (meters) used for Address and Point modes |
+| Folder | SvStringsSocket | Output folder path where the GeoJSON file will be saved |
+
+### Visibility rules
+
+| download_method | Visible inputs |
+|---|---|
+| Address | Address, Distance, Folder |
+| Place | Place, Folder |
+| Point | Coordinate_X, Coordinate_Y, Distance, Folder |
+| Bbox | North, South, East, West, Folder |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| download | Bool | False | When enabled, triggers the download process |
+| download_method | Enum | Address | Selects spatial query type: Address, Place, Point, or Bbox |
+| features | Enum | building | OSM tag used to filter downloaded geometries |
+
+### Available feature tags
+
+aerialway, aeroway, amenity, barrier, boundary, building, craft, emergency, geological, healthcare, highway, historic, landuse, leisure, man_made, military, natural, office, place, power, public_transport, railway, route, sport, telecom, tourism, water, waterway, additional_properties, annotations, name, properties, references, restrictions
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Output_Message | SvStringsSocket | GeoDataFrame result object (or empty if download disabled) |
+
+## How it works
+
+1. Builds a dictionary using the selected feature:
+
+   `{ "<feature>": True }`
+
+2. Runs one of the osmnx queries:
+
+   - Address mode  
+     `ox.geometries_from_address(address, dictionary, distance)`
+
+   - Place mode  
+     `ox.geometries_from_place(place, dictionary)`
+
+   - Point mode  
+     `ox.geometries_from_point((x, y), dictionary, distance)`
+
+   - BBox mode  
+     `ox.geometries_from_bbox(north, south, east, west, dictionary)`
+
+3. Filters columns to keep common attributes:
+   - geometry  
+   - building  
+   - amenity  
+   - name  
+   - height  
+   - levels  
+   - tourism  
+   - shop  
+   - office  
+   - healthcare  
+
+4. Saves output file using:
+
+   `folder_path/location_feature.geojson`
+
+## Example
+
+### Address-based download
+
+1. Set:
+   - download_method = Address  
+   - features = building  
+
+2. Connect:
+   - Address → "Melbourne, Australia"  
+   - Distance → "500"  
+   - Folder → "/tmp/"  
+
+3. Enable **download**.
+
+Example output file:
+
+`/tmp/Melbourne Australia_building.geojson`
+
+### Place-based download
+
+1. Set:
+   - download_method = Place  
+   - features = highway  
+
+2. Connect:
+   - Place → "Melbourne, Australia"  
+   - Folder → "/tmp/"  
+
+3. Enable download.
+
+### Point-based download
+
+1. Set:
+   - download_method = Point  
+   - features = amenity  
+
+2. Connect:
+   - Coordinate_X → "144.9631"  
+   - Coordinate_Y → "-37.8136"  
+   - Distance → "300"  
+   - Folder → "/tmp/"  
+
+### Bounding box download
+
+1. Set:
+   - download_method = Bbox  
+   - features = landuse  
+
+2. Connect:
+   - North / South / East / West coordinates  
+   - Folder path  
+
+3. Enable download.
+
+## Notes
+
+- Output is always saved as **GeoJSON**.  
+- File naming is based on the spatial query + feature type.  
+- This node is designed primarily as a data acquisition tool for downstream Mega-Polis workflows.
+

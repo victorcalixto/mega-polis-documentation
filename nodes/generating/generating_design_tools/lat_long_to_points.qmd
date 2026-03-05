@@ -1,0 +1,60 @@
+# Lat/Lon To Points
+
+> **Category:** Mega-Polis → Generation  → Generation Design Tools  
+> **Node ID:** `SvMegapolisLatLonToPoints`  
+> **Tooltip:** Lat-Lon To Points  
+> **Dependencies:** `pyproj` (CRS, Proj, transform)
+
+## Functionality
+
+Converts **Latitude/Longitude** coordinates (geographic) into **projected XYZ points** using `pyproj`.
+
+Internally, the node:
+1. Reads latitude and longitude values from the input sockets
+2. Defines an input CRS as `+proj=latlon`
+3. Defines an output projection using `Proj(self.projection)`
+4. Transforms `(lon, lat)` into `(x, y)` using `pyproj.transform`
+5. Outputs points as `[ [x, y, 0], ... ]` wrapped as `[coords]` for Sverchok conventions
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Latitude | SvStringsSocket | Latitude value(s). Must be linked. |
+| Longitude | SvStringsSocket | Longitude value(s). Must be linked. |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| projection | Int | 4236 | Output CRS projection number passed to `pyproj.Proj(self.projection)`. |
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Points | SvStringsSocket | Projected point(s) as `[[x, y, 0], ...]` wrapped inside a list: `[coords]`. |
+
+## Example
+
+### Convert a single location to projected coordinates
+
+1. Connect:
+   - Latitude → `-37.8136`
+   - Longitude → `144.9631`
+2. Set **projection** to a projected CRS (example for Melbourne):
+   - `32755` (UTM Zone 55S)
+3. Output:
+   - **Points** → `[[x, y, 0]]` (projected meters)
+
+### Typical workflow
+
+- Use **Point to Lat/Lon** (or other sources) → feed lat/lon lists  
+- Convert to projected points → use points for:
+  - placing geometry in a projected scene
+  - running distance-based analyses
+  - exporting to GIS-friendly coordinates
+
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/24-lat-lon-points.png)
+

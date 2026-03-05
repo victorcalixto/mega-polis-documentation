@@ -1,0 +1,51 @@
+# Faces From Vertices
+
+> **Category:** Mega-Polis → Generation → Generation Design Tools  
+> **Node ID:** `SvMegapolisFacesFromVertices`  
+> **Tooltip:** Faces from Vertices  
+> **Dependencies:** none (pure Python) :contentReference[oaicite:0]{index=0}
+
+## Functionality
+
+Generates **quad faces** for a regular grid from a set of vertices, given the grid dimensions (**X Shape** and **Y Shape**).
+
+Internally, the node builds faces by connecting adjacent vertices in row-major order, producing quads of the form:
+
+`[i, i+1, i+x_shape+1, i+x_shape]`
+
+for each cell in the grid. :contentReference[oaicite:1]{index=1}
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Vertices | SvVerticesSocket | Vertex list for a grid (used only as a required input; the current implementation does not validate or index into it). :contentReference[oaicite:2]{index=2} |
+| X Shape | SvStringsSocket | Number of vertices in the X direction (columns). Uses `x_shape = X Shape[0][0]`. :contentReference[oaicite:3]{index=3} |
+| Y Shape | SvStringsSocket | Number of vertices in the Y direction (rows). Uses `y_shape = Y Shape[0][0]`. :contentReference[oaicite:4]{index=4} |
+
+## Parameters
+
+This node has no exposed UI parameters. :contentReference[oaicite:5]{index=5}
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Faces | SvStringsSocket | A single list containing all quad faces: `[[f0, f1, ...]]`, where each face is a list of 4 vertex indices. :contentReference[oaicite:6]{index=6} |
+
+## Example
+
+### Build faces for a 10×8 grid
+
+1. Provide a grid vertex list (e.g., produced by a grid/mesh generator) into **Vertices**.
+2. Set:
+   - **X Shape** = `10`
+   - **Y Shape** = `8`
+3. The node outputs quad faces for `(Y Shape - 1) * (X Shape - 1)` cells:
+   - `(8 - 1) * (10 - 1) = 63` quads.
+
+Connect **Vertices** + **Faces** into a mesh construction/viewer node.
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/23-faces-from-vertices.gif)
+
+

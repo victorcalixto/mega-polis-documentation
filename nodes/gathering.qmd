@@ -1,0 +1,70 @@
+---
+title: Gathering
+---
+
+The Gathering category defines how contextual information enters the computational environment.  
+It structures the acquisition, reading, and organisation of heterogeneous datasets so they can be processed within the node system.
+
+Gathering is divided into three main groups:
+
+- **Gathering Design Tools**
+- **Gathering Data Tools**
+- **Gathering Supporting Tools**
+
+Each group reflects a different type of data integration logic.
+
+---
+
+## Gathering Design Tools
+
+This group focuses on spatial and environmental data directly related to urban form and territory.
+
+It supports the integration of:
+
+- Street-level imagery  
+- GIS vector datasets  
+- Digital Elevation Models (DEM)  
+- Point clouds (LiDAR / LAS)  
+- Street and transport networks  
+
+These data types describe physical, morphological, and infrastructural conditions of the built environment and are typically spatially referenced.
+
+---
+
+## Gathering Data Tools
+
+This group integrates structured, non-spatial datasets commonly used in data analytics and modelling.
+
+It supports:
+
+- Tabular data (CSV)  
+- Structured data objects (JSON)  
+- DataFrames and Series  
+
+These formats enable attribute-based operations, statistical analysis, and structured data manipulation within the same computational environment.
+
+---
+
+## Gathering Supporting Tools
+
+This group enables direct retrieval of information from web-based sources.
+
+It supports:
+
+- Downloading datasets via URLs  
+- Accessing public APIs  
+
+These mechanisms allow automated integration of online data without leaving the node-based workflow.
+
+---
+
+# Structural Role
+
+The Gathering category ensures:
+
+- Compatibility between heterogeneous data formats  
+- Integration of spatial and non-spatial datasets  
+- Structured data objects ready for downstream computation  
+- Iterative refinement of data sources when required  
+
+It defines the entry point of the computational workflow and provides the foundation for analysis, generation, and visualisation.

@@ -1,0 +1,87 @@
+# Seaborn Plot
+
+> **Category:** Mega-Polis → Visualisation  → Visualisation Data Tools    
+> **Node ID:** `SvMegapolisSeabornPlot`  
+> **Tooltip:** Seaborn Plot  
+> **Dependencies:** `seaborn`, `matplotlib`, `pandas`
+
+## Functionality
+
+Creates a **Seaborn-based statistical plot** from an input Pandas DataFrame.
+
+The node:
+
+1. Receives a DataFrame and selected feature names.
+2. Generates a Seaborn plot (e.g., scatter, line, histogram, boxplot).
+3. Displays the plot using Matplotlib.
+
+This node is intended for quick exploratory statistical visualisation inside Mega-Polis workflows.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dataframe | SvStringsSocket | Input Pandas DataFrame. Must be linked. |
+| X | SvStringsSocket | Column name used for X axis. |
+| Y | SvStringsSocket | Column name used for Y axis (if required by plot type). |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| Plot Type (`plottype`) | Enum | `scatter` | Selects which Seaborn plot function is used. |
+| Hue | String | None | Optional grouping column for colour separation. |
+| Style | String | None | Optional grouping column for marker style. |
+| Height | Float | 6 | Figure height (inches). |
+| Run | Bool | False | When enabled, generates the plot. |
+
+### Available plot types
+
+- `scatter`
+- `line`
+- `hist`
+- `box`
+- `violin`
+- `bar`
+
+*(Exact list depends on implementation in the node source.)*
+
+## Outputs
+
+This node has **no output sockets**.  
+It generates and displays a Seaborn/Matplotlib plot when `Run=True`.
+
+## Example
+
+### Scatter plot of height vs area
+
+1. Load a dataset (e.g., via **Read CSV**).
+2. Connect:
+   - Dataframe → Dataframe
+   - X → `"height"`
+   - Y → `"area"`
+3. Set:
+   - Plot Type → `scatter`
+   - Run → True
+4. The node will display a Seaborn scatter plot.
+
+### Grouped boxplot
+
+1. X → `"landuse"`
+2. Y → `"height"`
+3. Plot Type → `box`
+4. Optional: Hue → `"zone_type"`
+5. Run → True
+
+
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/32-seaborn-plot.gif)
+
+## Notes
+
+- The node only displays plots when **Run** is enabled.
+- X and Y features must exist in the DataFrame.
+- Some plot types require both X and Y; others (e.g., histogram) may require only one.
+- Large datasets may slow down rendering.
+- Output appears in the Matplotlib display context (not as a Sverchok output object).
+```

@@ -1,0 +1,67 @@
+# WebVR Connector
+
+> **Category:** Mega-Polis → Visualisation  → Visualisation Design Tools   
+> **Node ID:** `SvMegapolisWebVRConnector`  
+> **Tooltip:** Web VR Connector  
+> **Dependencies:** `os` (writes files to disk). Uses A-Frame / Three.js via generated HTML/JS.
+
+## Functionality
+
+Generates (and writes to disk) a minimal WebVR/WebGL entry point intended to visualise Sverchok mesh data in a browser using **A-Frame** + **Three.js**.
+
+The node:
+- Reads a target **Folder** plus mesh **Vertices**, **Faces**, and **Material**
+- Converts vertices into a single formatted string (`vertices_str`)
+- Converts faces into a list of `THREE.Face3(...)` push statements (`faces_str`)
+- Creates the output folder if missing
+- Writes an `index.html` file into the folder
+- Outputs the generated HTML (string) plus the processed vertices/faces strings
+
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Folder | SvStringsSocket | Output folder where `index.html` is written (first item is used). |
+| Vertices | SvVerticesSocket | Mesh vertices (nested Sverchok structure). Converted into a formatted string. |
+| Faces | SvStringsSocket | Mesh faces (index triples expected). Converted into `THREE.Face3(...)` statements. |
+| Material | SvStringsSocket | Material identifier/string (first item is used). Currently not applied because `html` is empty. |
+
+All inputs must be linked for the node to execute.
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| create | Bool | False | UI toggle “Create Html”. Present in the node UI, but currently not used to gate execution (process runs whenever sockets are linked).
+| height | Int | 600 | Intended display height for embedding (not currently used because the embedding code is commented out).
+| width | Int | 800 | Intended display width for embedding (not currently used because the embedding code is commented out).
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Html | SvStringsSocket | The generated HTML string. Currently an empty string placeholder.
+| Vertices Out | SvVerticesSocket | The generated vertex string (space-separated triples with commas between vertex entries).
+| Faces Out | SvStringsSocket | The generated face JS statements (one per line).
+
+## Example
+
+### Export a mesh to a WebVR folder
+
+1. Create/generate a mesh in Sverchok and provide:
+   - **Vertices** as a nested vertex list
+   - **Faces** as triangle faces (triples of indices)
+2. Provide:
+   - **Folder** → `"/tmp/megapolis_webvr"`
+   - **Material** → `"default"` (any string)
+3. Execute the node.
+4. Open the written file in a browser:
+   - `/tmp/megapolis_webvr/index.html`
+
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/31-webvr-connector.gif)
+
+## Notes
+
+- **Faces must be triangles**: the node generates `THREE.Face3(v0, v1, v2)` per face. Quads/ngons are not handled. 

@@ -1,0 +1,86 @@
+# DataFrame Utils
+
+> **Category:** Mega-Polis → Analysis → Analysis Data Tools    
+> **Node ID:** `SvMegapolisDataframeUtils`  
+> **Tooltip:** DataFrame Utilities: dropna, fillna, groupby, describe  
+> **Dependencies:** `pandas`  
+
+## Functionality
+
+Provides common **Pandas DataFrame utility operations** inside Mega-Polis node workflows.
+
+Depending on the selected method, the node can:
+
+- Drop missing values  
+- Fill missing values  
+- Group data  
+- Generate descriptive statistics  
+
+This node is intended as a lightweight data-cleaning and summarisation tool before running deeper analyses.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dataframe | SvStringsSocket | Input Pandas DataFrame. Required for execution. |
+| Value | SvStringsSocket | Optional value used for operations such as `fillna`. |
+| Column | SvStringsSocket | Optional column name used for grouping operations. |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| Method (`dataframe_method`) | Enum | `dropna` | Selects which DataFrame operation to perform. |
+
+### Available methods
+
+- `dropna`
+- `fillna`
+- `groupby`
+- `describe`
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dataframe Out | SvStringsSocket | Resulting Pandas DataFrame (or grouped/aggregated output depending on method). |
+
+## Example
+
+### Remove missing values
+
+1. Connect a DataFrame to **Dataframe**.
+2. Set **Method** to `dropna`.
+3. Output: DataFrame with rows containing NaN values removed.
+
+### Fill missing values
+
+1. Connect DataFrame.
+2. Set **Method** to `fillna`.
+3. Provide a numeric or string value in **Value** (e.g., `0`).
+4. Output: DataFrame with NaNs replaced.
+
+### Group by a column
+
+1. Connect DataFrame.
+2. Set **Method** to `groupby`.
+3. Provide column name (e.g., `"landuse"`) in **Column**.
+4. Output: Grouped result (aggregation behavior depends on implementation).
+
+### Generate descriptive statistics
+
+1. Connect DataFrame.
+2. Set **Method** to `describe`.
+3. Output: Summary statistics including count, mean, std, min, max, etc.
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/19_dataframe_utils.gif)
+
+## Notes 
+
+- Some methods require specific inputs:
+  - `fillna` requires **Value**
+  - `groupby` requires **Column**
+- GroupBy behavior may require additional aggregation downstream depending on your workflow.
+- Non-numeric columns are ignored by statistical methods such as `describe()`.
+- Output is wrapped according to Sverchok data conventions.
+```  

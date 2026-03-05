@@ -1,0 +1,122 @@
+project:
+  type: website
+
+website:
+  title: "Mega-Polis"
+  site-url: https://mega-polis.xyz
+  description: "A Free and Open-Source Data-Driven Urban Design Toolkit for Blender/Sverchok"
+  favicon: logo.svg
+
+  open-graph:
+    image: image4.png
+
+  navbar:
+    logo: logo.svg
+
+    tools:
+      - icon: github
+        menu:
+          - text: Source code
+            url: https://github.com/victorcalixto/mega-polis
+          - text: Report a bug
+            url: https://github.com/victorcalixto/mega-polis/issues/new?assignees=&labels=bug&projects=&template=bug-report.yml&title=bug
+          - text: Report a documentation issue
+            url: https://github.com/victorcalixto/mega-polis/issues/new?assignees=&labels=bug&projects=&template=bug-report.yml&title=bug
+          - text: Submit a feature request
+            url: https://github.com/victorcalixto/mega-polis/issues/new?assignees=&labels=feature&projects=&template=feature-request.yml&title=feat
+          - text: Ask the community for help
+            url: https://github.com/victorcalixto/mega-polis/discussions/new?category=q-a
+
+    left:
+      - href: index.qmd
+        text: Home
+      - href: about.qmd
+        text: About
+      - href: install.qmd
+        text: Installation
+      #- href: getting_started.qmd
+      #  text: Getting Started
+      - href: nodes/index.qmd
+        text: Nodes
+
+  sidebar:
+    - id: nodes
+      title: "Nodes"
+      style: docked
+      collapse-level: 2
+      contents:
+        - href: nodes/index.qmd
+          text: Overview
+
+        - section: Gathering
+          contents:
+            - href: nodes/gathering.qmd
+              text: Overview
+
+            - section: Gathering Design Tools
+              contents:
+                - auto: nodes/gathering/gathering_design_tools/*.qmd
+
+            - section: Gathering Data Tools
+              contents:
+                - auto: nodes/gathering/gathering_data_tools/*.qmd
+
+            - section: Gathering Supporting Tools
+              contents:
+                - auto: nodes/gathering/gathering_supporting_tools/*.qmd
+        
+        - section: Analysing
+          contents:
+            - href: nodes/analysing.qmd
+              text: Overview
+
+            - section: Analysing Design Tools
+              contents:
+                - auto: nodes/analysing/analysing_design_tools/*.qmd
+
+            - section: Analysing Data Tools
+              contents:
+                - auto: nodes/analysing/analysing_data_tools/*.qmd
+
+        - section: Generating
+          contents:
+            - href: nodes/generating.qmd
+              text: Overview
+
+            - section: Generating Design Tools
+              contents:
+                - auto: nodes/generating/generating_design_tools/*.qmd
+
+            - section: Generating Data Tools
+              contents:
+                - auto: nodes/generating/generating_data_tools/*.qmd
+
+            - section: Generating Supporting Tools
+              contents:
+                - auto: nodes/generating/generating_supporting_tools/*.qmd
+        
+        - section: Visualising
+          contents:
+            - href: nodes/visualising.qmd
+              text: Overview
+
+            - section: Visualising Design Tools
+              contents:
+                - auto: nodes/visualising/visualising_design_tools/*.qmd
+
+            - section: Visualising Data Tools
+              contents:
+                - auto: nodes/visualising/visualising_data_tools/*.qmd
+
+            - section: Visualising Supporting Tools
+              contents:
+                - auto: nodes/visualising/visualising_supporting_tools/*.qmd
+        
+format:
+  html:
+    theme:
+      light: flatly
+      dark: darkly
+    css: styles.css
+    toc: true
+

@@ -1,0 +1,46 @@
+# Read JSON
+
+> **Category:** Mega-Polis → Gathering → Gathering Data Tools  
+> **Node ID:** `SvMegapolisReadJson`  
+> **Tooltip:** Read JSON file  
+> **Dependencies:** `pandas`, `json`  
+
+## Functionality
+
+Reads a JSON file from a local path and outputs:
+
+- **JSON Data**: the raw parsed JSON object (via `json.load`)
+- **JSON DF**: a Pandas DataFrame created from the same file (via `pd.read_json`)
+
+The node only runs when the **Path** input is linked.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Path | SvFilePathSocket | Local path to a `.json` file. The node exits early if this socket is not linked. |
+
+## Parameters
+
+This node has no exposed UI parameters.
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| JSON Data | SvStringsSocket | Raw JSON object loaded with `json.load(...)` (dict/list depending on file structure). |
+| JSON DF | SvStringsSocket | Pandas DataFrame loaded via `pd.read_json(file_name)`. |
+
+## Example
+
+### Minimal workflow
+
+1. Add **Read JSON** node.
+2. Connect a file path (e.g., `/path/to/data.json`) to **Path**.
+3. Use outputs:
+   - **JSON Data** for raw nested structures (dictionaries/lists)
+   - **JSON DF** for table-based workflows (filtering, mapping attributes, etc.)
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/08_read_json.png)
+
+

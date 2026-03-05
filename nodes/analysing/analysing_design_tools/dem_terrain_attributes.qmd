@@ -1,0 +1,68 @@
+# DEM Terrain Attributes
+
+> **Category:** Mega-Polis → Analysis → Analysis Design Tools  
+> **Node ID:** `SvMegapolisDemTerrainAttributes`  
+> **Tooltip:** Provides methods for extract Terrain Attributes values: Aspect, Curvature, and Slope.  
+> **Dependencies:** `richdem`  
+
+## Functionality
+
+Computes a selected **terrain attribute** from a DEM raster array using **RichDEM** (`rd.TerrainAttribute`).  
+It accepts a DEM array (2D elevation grid), converts it into a RichDEM `rdarray` with a fixed NoData value, then calculates one attribute (e.g., slope in degrees, aspect, curvature) and outputs:
+
+- A **flattened** 1D array of attribute values
+- The **full attribute array** (same shape as the input DEM)
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dem Array | SvStringsSocket | 2D DEM elevation array (e.g., output from **Read DEM**). Must be linked. |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| Terrain Attribute (`attributetype`) | Enum | `slope_degrees` | Select which attribute RichDEM computes via `rd.TerrainAttribute(..., attrib=...)`. |
+
+### Available attributes
+
+- `aspect`  
+- `profile_curvature`  
+- `planform_curvature`  
+- `curvature`  
+- `slope_riserun`  
+- `slope_degrees`  
+- `slope_percentage`  
+- `slope_radians`  
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Attribute Values | SvVerticesSocket | Flattened 1D array of computed attribute values (`dem_slope.flatten()`). |
+| Array Out | SvVerticesSocket | Full 2D attribute array (`dem_slope`) as returned by RichDEM. |
+
+## Example
+
+### Compute slope (degrees) from a DEM
+
+1. Use **Read DEM** to load a GeoTIFF and output the elevation matrix (DEM array).
+2. Connect **Read DEM → DEM data** (array) into **Dem Array**.
+3. In **Terrain Attribute**, select `slope_degrees`.
+4. Use outputs:
+   - **Attribute Values** to drive point-based mapping (e.g., colour/size by slope)
+   - **Array Out** for raster-style workflows or further terrain processing
+
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/14_dem_terrain_attributes.png)
+
+### Compute aspect
+
+1. Set **Terrain Attribute** to `aspect`.
+2. Visualise **Attribute Values** as a histogram or map values back onto the terrain grid.
+
+## Notes
+
+- The node wraps the input array as `rd.rdarray(self.array, no_data=-9999)`. If your DEM uses a different NoData value, you may want to standardise it upstream.
+- Output **Attribute Values** is a flattened 1D array. If you need grid indexing, use **Array Out** (2D).

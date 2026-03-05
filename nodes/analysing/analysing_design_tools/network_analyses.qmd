@@ -1,0 +1,65 @@
+# Network Analyses
+
+> **Category:** Mega-Polis → Analysis → Analysis Design Tools    
+> **Node ID:** `SvMegapolisNetworkAnalyses`  
+> **Tooltip:** Network Analises: Closeness Centrality and Degree Centrality  
+> **Dependencies:** `osmnx`, `networkx`  
+
+## Functionality
+
+Runs a selected **network analysis** on an input **NetworkX graph** and returns:
+
+- A list of edge-based centrality **values**
+- A list of **edge colours** computed using OSMnx colormap helpers (`ox.plot.get_edge_colors_by_attr`)
+
+For centrality modes, the node computes metrics on the **line graph** of `G` (`nx.line_graph(G)`), meaning the values correspond to **edges** of the original street network (because edges become nodes in the line graph). It then stores these values back onto the original graph as an **edge attribute** with the same name as the chosen method, and generates colours from that attribute.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Nx Graph | SvStringsSocket | A NetworkX graph (typically from **Load Street Network**). Must be linked. |
+| Colour Map | SvStringsSocket | Colormap name (string) used by OSMnx to colour edges (e.g., `"viridis"`, `"plasma"`). Must be linked. The node reads `colour_map[0][0]`. |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| Analysis Methods (`analysismethod`) | Enum | `closeness_centrality` | Selects which analysis to run. The method name is also used as the edge-attribute key in `nx.set_edge_attributes`. |
+
+### Available methods
+
+- `closeness_centrality`  
+- `betweenness_centrality`  
+- `degree_centrality`  
+- `basic`  
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Nx Values | SvStringsSocket | For centrality methods: list of centrality values (edge-based, via `nx.line_graph(G)` values). |
+| Nx Edges Colours | SvStringsSocket | For centrality methods: list of RGBA-like colours returned by `ox.plot.get_edge_colors_by_attr(...)`, matching the graph edges. |
+
+## Example
+
+### Colour a street network by edge closeness centrality
+
+1. Use **Load Street Network** to get a graph `G`.
+2. Connect:
+   - `Graph` → **Nx Graph**
+   - A string colormap (e.g., `"viridis"`) → **Colour Map**
+3. Set **Analysis Methods** to `closeness_centrality`.
+4. Use:
+   - **Nx Edges Colours** to colour edges in a viewer/plot pipeline
+   - **Nx Values** for thresholds, statistics, or legends
+
+### Betweenness / degree centrality
+
+Repeat the same setup but choose:
+- `betweenness_centrality` or
+- `degree_centrality`
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/17_network_analyses.gif)
+
+

@@ -1,0 +1,79 @@
+# Transpose DataFrame
+
+> **Category:** Mega-Polis → Generation  → Generation Data Tools  
+> **Node ID:** `SvMegapolisTransposeDataframe`  
+> **Tooltip:** Transpose DataFrame  
+> **Dependencies:** `pandas`
+
+## Functionality
+
+Transposes an input **Pandas DataFrame**, swapping its rows and columns.
+
+Internally, the node applies the Pandas transpose operation:
+
+`df.T`
+
+This operation:
+
+- Converts rows into columns  
+- Converts columns into rows  
+
+It is useful for restructuring datasets for:
+
+- Statistical analysis  
+- Correlation workflows  
+- Feature reorientation  
+- Matrix-based processing  
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dataframe | SvStringsSocket | Input Pandas DataFrame. Must be linked. |
+
+The node does nothing if the input is not linked.
+
+## Parameters
+
+This node has no exposed UI parameters.
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dataframe Out | SvStringsSocket | Transposed Pandas DataFrame. |
+
+## Example
+
+### Before transpose
+
+Input DataFrame:
+
+| id | height | area |
+|----|--------|------|
+| 0  | 12     | 50   |
+| 1  | 18     | 70   |
+
+### After transpose
+
+Output DataFrame:
+
+|      | 0  | 1  |
+|------|----|----|
+| id   | 0  | 1  |
+| height | 12 | 18 |
+| area | 50 | 70 |
+
+## Typical uses
+
+- Prepare matrix-style inputs for:
+  - Correlation analysis  
+  - Linear algebra workflows  
+  - Machine learning preprocessing  
+- Reshape datasets before exporting or mapping  
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/26-transpose-dataframe.png)
+
+## Notes 
+
+- Output follows Sverchok DataFrame wrapping conventions.

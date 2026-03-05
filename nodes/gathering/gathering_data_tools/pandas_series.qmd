@@ -1,0 +1,74 @@
+# Pandas Series
+
+> **Category:** Mega-Polis → Gathering → Gathering Data Tools  
+> **Node ID:** `SvMegapolisPandasSeries`  
+> **Tooltip:** Create a Pandas Series  
+> **Dependencies:** `pandas`  
+
+## Functionality
+
+Creates a **Pandas Series** object from incoming Sverchok data.
+
+This node is used to convert a list of values into a one-dimensional labeled array, which can then be used for attribute mapping, statistical analysis, filtering operations, or as an input to other Mega-Polis nodes that expect Pandas structures.
+
+It acts as a lightweight counterpart to the Pandas DataFrame node when only a single column of data is needed.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Data | SvStringsSocket | Input list of values to be converted into a Pandas Series. |
+| Name | SvStringsSocket | Optional name assigned to the Series. |
+
+## Parameters
+
+This node has no exposed UI parameters.
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Series | SvStringsSocket | A Pandas Series created from the input values. |
+
+## Example
+
+### Create a numeric series
+
+Input:
+- Data → `[10, 20, 30, 40]`
+- Name → `"Height"`
+
+Output:
+A Pandas Series labeled "Height" containing the values 10, 20, 30, 40.
+
+### Create a categorical series
+
+Input:
+- Data → `["Residential", "Commercial", "Industrial"]`
+- Name → `"LandUse"`
+
+Output:
+A Series of categorical labels that can be used for filtering or classification workflows.
+
+### Typical uses
+
+- Convert attribute lists into a structured format
+- Prepare values for:
+  - Statistical calculations
+  - Filtering operations
+  - Grouping workflows
+  - Data alignment with geometry
+
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/09_pandas_series.png)
+
+
+## Notes
+
+- If **Name** is not provided, the Series will be created without a label.
+- Works with:
+  - Numeric lists
+  - String lists
+  - Mixed data types
+- The output is a full Pandas Series object that can be passed to downstream Mega-Polis nodes expecting tabular data.
+

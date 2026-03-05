@@ -1,0 +1,61 @@
+# Plot DEM
+
+> **Category:** Mega-Polis → Visualisation  → Visualisation Design Tools   
+> **Node ID:** `SvMegapolisPlotDem`  
+> **Tooltip:** Plot a Dem Array  
+> **Dependencies:** `richdem` (uses `rd.rdShow`) :contentReference[oaicite:0]{index=0}
+
+## Functionality
+
+Plots a DEM (2D raster/array) using **RichDEM**’s `rd.rdShow(...)`.
+
+When **run** is enabled, the node visualises the input **Dem Array** with:
+
+- optional axes on/off
+- configurable figure size (width/height)
+- selectable sequential colormap
+- `ignore_colours=[0]` (treats value 0 as a special colour to ignore) :contentReference[oaicite:1]{index=1}
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dem Array | SvStringsSocket | 2D DEM array to plot. Must be linked. :contentReference[oaicite:2]{index=2} |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| run | Bool | False | If True, triggers `rd.rdShow(...)` to display the plot. :contentReference[oaicite:3]{index=3} |
+| axes | Bool | False | Show/hide plot axes. :contentReference[oaicite:4]{index=4} |
+| width | Int | 8 | Plot width used in `figsize=(width, height)`. :contentReference[oaicite:5]{index=5} |
+| height | Int | 5 | Plot height used in `figsize=(width, height)`. :contentReference[oaicite:6]{index=6} |
+| colour | Enum | inferno | Sequential colormap passed as `cmap=self.colour`. :contentReference[oaicite:7]{index=7} |
+
+### Available colormaps (enum)
+
+Includes (as defined in the node):  
+`viridis`, `plasma`, `inferno`, `magma`, `cividis`, `Greys`, `Purples`, `Blues`, `Greens`, `Oranges`, `Reds`, `YlOrBr`, `YlOrRd`, `OrRd`, `PuRd`, `RdPu`, `BuPu`, `GnBu`, `PuBu`, `YlGnBu`, `PuBuGn`, `BuGn`, `YlGn`, `binary`, `gist_yarg`, `gist_gray`, `gray`, `bone`, `pink`, `spring`, `summer`, `autumn`, `winter`, `cool`, `Wistia`, `hot`, `afmhot`, `gist_heat`, `copper`. :contentReference[oaicite:8]{index=8}
+
+## Outputs
+
+This node has **no output sockets**. It is a visualisation-only node that displays a plot when `run=True`. :contentReference[oaicite:9]{index=9}
+
+## Example
+
+### Plot a DEM array
+
+1. Connect a DEM array (e.g., from **Read DEM** or a terrain attribute output) to **Dem Array**.
+2. Set:
+   - `run = True`
+   - `axes = False`
+   - `width = 10`, `height = 6`
+   - `colour = inferno` (or any other colormap)
+3. The node will display the DEM using:
+
+`rd.rdShow(dem_array, ignore_colours=[0], axes=axes, cmap=colour, figsize=(width, height))` :contentReference[oaicite:10]{index=10}
+
+## Notes / gotchas
+
+- Plotting only happens when **run** is enabled; otherwise the node does nothing beyond reading the input. :contentReference[oaicite:11]{index=11}
+- `ignore_colours=[0]` may hide/neutralise zero-valued pixels (often used for NoData masks in some DEM pipelines). :contentReference[oaicite:12]{index=12}

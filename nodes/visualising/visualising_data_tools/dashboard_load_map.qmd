@@ -1,0 +1,58 @@
+# Dashboard Load Map
+
+> **Category:** Mega-Polis → Visualisation  → Visualisation Data Tools   
+> **Node ID:** `SvMegapolisDashboardLoadMap`  
+> **Tooltip:** Dashboard Load Map  
+> **Dependencies:** (outputs a dashboard snippet; expects a compatible mapping library in the runtime where the snippet is executed)
+
+## Functionality
+
+Generates a **Python code snippet (string)** that creates/initialises a dashboard map object and assigns it to a variable name.
+
+This node is designed to work as the starting point of a map dashboard pipeline, where subsequent nodes (e.g., **Dashboard GeoJSON To Map**) add layers to the created map.
+
+It does **not** render a map inside Blender/Sverchok. The output must be executed in your dashboard environment (e.g., Streamlit app with a mapping library).
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Map Name | SvStringsSocket | Variable name to assign the created map object to (e.g., `m`, `map1`). Must be linked. |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| Provider | Enum | `OpenStreetMap` | Basemap provider name (used in the generated snippet). |
+| zoom | Int | 12 | Initial zoom level. |
+| latitude | Float | 0.0 | Initial map center latitude. |
+| longitude | Float | 0.0 | Initial map center longitude. |
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dashboard Map | SvStringsSocket | Python code snippet that creates the map object and stores it in the given variable name. |
+
+## Example
+
+### Create a map called `m`
+
+1. Connect:
+   - Map Name → `"m"`
+2. Set:
+   - Provider → `OpenStreetMap`
+   - latitude → `-37.8136`
+   - longitude → `144.9631`
+   - zoom → `12`
+3. Output snippet (conceptually) will create a map object centered at Melbourne, stored in `m`.
+
+Then chain:
+
+- **Dashboard GeoJSON To Map** (Map Name = `"m"`) to add layers.
+
+## Notes / gotchas
+
+- This node outputs code only. You must execute it in your dashboard runtime.
+- The exact mapping backend depends on how your dashboard runner interprets the snippet (e.g., Folium, leafmap, ipyleaflet). Ensure your runtime provides the map constructor used in the generated code.
+- Use the same **Map Name** consistently across the map pipeline.

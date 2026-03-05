@@ -1,0 +1,59 @@
+---
+title: Analysing  
+---
+
+The Analysing category defines how structured datasets are evaluated, measured, and transformed into quantitative descriptors inside the computational environment.
+
+It operates on data introduced during the Gathering phase and converts it into metrics, indicators, and relational information that can inform subsequent generative or visual processes.
+
+Analysing is divided into two main groups:
+
+- **Analysing Design Tools**
+- **Analysing Data Tools**
+
+Unlike Gathering, this category does not include Supporting Tools. All nodes in this category perform direct computational evaluation.
+
+---
+
+## Analysing Design Tools
+
+This group focuses on spatial and environmental computation applied to geographically referenced data and urban systems.
+
+It supports the analysis of:
+
+- Terrain morphology (elevation-derived attributes such as slope, aspect, curvature)
+- Street and transport networks (centrality, shortest paths, connectivity)
+- Visibility fields (isovists and spatial exposure)
+- GIS-based spatial operations and raster processing
+- Image-based spatial feature extraction
+
+These operations compute measurable properties of space, infrastructure, and landscape conditions.
+
+---
+
+## Analysing Data Tools
+
+This group focuses on structured, attribute-based computation and statistical evaluation.
+
+It supports:
+
+- Correlation analysis
+- Feature extraction and indexing
+- DataFrame transformations
+- Statistical operations
+- Machine learning workflows (model selection, fitting, prediction, evaluation)
+
+These tools transform structured datasets into numerical indicators, relational patterns, and predictive outputs.
+
+---
+
+# Structural Role
+
+The Analysing category ensures:
+
+- Separation between raw data ingestion and metric computation  
+- Explicit transformation of datasets into measurable descriptors  
+- Compatibility between spatial analysis and statistical evaluation  
+- Modular evaluation following Sverchok’s tree logic  
+
+It establishes the computational core of the workflow, producing quantitative outputs that can drive generative systems or visualisation processes.

@@ -1,0 +1,62 @@
+# Dashboard Bokeh Plot Chart
+
+> **Category:** Mega-Polis → Visualisation  → Visualisation Data Tools   
+> **Node ID:** `SvMegapolisDashboardBokehPlotChart`  
+> **Tooltip:** Dashboard Bokeh Plot Chart  
+> **Dependencies:** `bokeh`, `pandas`, `numpy`
+
+## Functionality
+
+Creates a **Bokeh chart** (plot) from input data and a provided **Bokeh figure**.
+
+This node is designed to bridge tabular data (e.g., Pandas DataFrames/Series) into an interactive Bokeh visualisation pipeline by:
+
+- Receiving a Bokeh **Figure** object
+- Receiving X and Y data (lists or Series)
+- Adding a plot glyph (typically scatter or line) into the figure
+- Outputting the updated figure for dashboard rendering
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Figure | SvStringsSocket | Input Bokeh figure object (from **Dashboard Bokeh Figure**). Must be linked. |
+| X | SvStringsSocket | X values (list/Series). Must be linked. |
+| Y | SvStringsSocket | Y values (list/Series). Must be linked. |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| Chart Type (`charttype`) | Enum | `scatter` | Selects which chart glyph is added to the figure. |
+| size | Int | 6 | Marker size for scatter plots. |
+| alpha | Float | 0.8 | Transparency for glyphs. |
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Figure Out | SvStringsSocket | Updated Bokeh figure with the chart glyph added. |
+
+## Example
+
+### Scatter plot from a DataFrame
+
+1. Create a figure using **Dashboard Bokeh Figure**.
+2. Extract features from a DataFrame:
+   - X → `"height"`
+   - Y → `"area"`
+3. Connect:
+   - Figure → **Figure**
+   - height values → **X**
+   - area values → **Y**
+4. Set **Chart Type** to `scatter`.
+5. Output:
+   - Figure Out → final plot for rendering.
+
+## Notes / gotchas
+
+- This node assumes the input Figure is a valid Bokeh figure object.
+- X and Y must be the same length.
+- Large datasets may reduce interactive performance.
+- Downstream rendering requires a dashboard environment that can display Bokeh plots.

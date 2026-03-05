@@ -1,0 +1,56 @@
+# Dashboard Bokeh Plot Line
+
+> **Category:** Mega-Polis → Visualisation  → Visualisation Data Tools   
+> **Node ID:** `SvMegapolisDashboardBokehPlotLine`  
+> **Tooltip:** Dashboard Bokeh Plot Line  
+> **Dependencies:** `bokeh`, `numpy`
+
+## Functionality
+
+Adds a **line plot** glyph to an existing **Bokeh figure**.
+
+This node is intended for dashboard workflows where a figure is created first (with **Dashboard Bokeh Figure**) and then progressively built up by adding one or more glyph layers.
+
+It takes X and Y sequences and draws a connected line on the provided figure, then outputs the updated figure.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Figure | SvStringsSocket | Input Bokeh figure object. Must be linked. |
+| X | SvStringsSocket | X values (list/array/Series). Must be linked. |
+| Y | SvStringsSocket | Y values (list/array/Series). Must be linked. |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| line_width | Int | 2 | Width of the plotted line. |
+| alpha | Float | 0.8 | Line transparency. |
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Figure Out | SvStringsSocket | Updated Bokeh figure with the line glyph added. |
+
+## Example
+
+### Plot a time series line
+
+1. Create a figure with **Dashboard Bokeh Figure**.
+2. Provide X as time indices and Y as values:
+   - X → `[0, 1, 2, 3, 4]`
+   - Y → `[10, 12, 9, 14, 18]`
+3. Connect:
+   - Figure → **Figure**
+   - X → **X**
+   - Y → **Y**
+4. Output:
+   - Figure Out → figure with line plot layer.
+
+## Notes / gotchas
+
+- X and Y must have the same length.
+- The node assumes you are providing numeric coordinates.
+- For multiple lines, you can chain several Plot Line nodes into the same figure pipeline.

@@ -1,0 +1,84 @@
+# Pandas Map Feature
+
+> **Category:** Mega-Polis → Generation → Generation Data Tools    
+> **Node ID:** `SvMegapolisPandasMapFeature`  
+> **Tooltip:** Map a Pandas feature to another feature  
+> **Dependencies:** `pandas`  
+
+## Functionality
+
+Maps values from one **Pandas DataFrame column** (feature) to new values using a provided mapping structure.
+
+Internally, the node applies a Pandas mapping operation (typically `Series.map(...)`) to transform categorical or numeric values into corresponding mapped values.
+
+This is useful for:
+
+- Reclassifying land use categories  
+- Converting codes into readable labels  
+- Assigning numeric weights to categories  
+- Creating new derived attributes  
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dataframe | SvStringsSocket | Input Pandas DataFrame. Must be linked. |
+| Feature | SvStringsSocket | Column name to be mapped. Must be linked. |
+| Mapping | SvStringsSocket | Dictionary-like structure defining the mapping (e.g., `{ "residential": 1, "commercial": 2 }`). Must be linked. |
+
+All inputs must be connected for the node to execute.
+
+## Parameters
+
+This node has no exposed UI parameters.
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dataframe Out | SvStringsSocket | DataFrame with mapped feature values applied. |
+
+## Example
+
+### Reclassify land use categories
+
+Given a DataFrame:
+
+| id | landuse |
+|----|----------|
+| 0  | residential |
+| 1  | commercial |
+| 2  | industrial |
+
+Mapping input:
+
+```
+{
+  "residential": 1,
+  "commercial": 2,
+  "industrial": 3
+}
+```
+
+Output DataFrame:
+
+| id | landuse |
+|----|----------|
+| 0  | 1 |
+| 1  | 2 |
+| 2  | 3 |
+
+### Assign weights
+
+Map building types to weighting factors for analysis workflows.
+
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/27-pandas-map-features.png)
+
+## Notes
+
+- The mapping structure must be a valid dictionary.
+- Values not present in the mapping may result in NaN.
+- Works best for categorical transformations.
+- Output follows Sverchok DataFrame wrapping conventions.
+```

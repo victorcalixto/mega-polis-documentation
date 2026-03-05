@@ -1,0 +1,85 @@
+# Dashboard Plotly Scatter
+
+> **Category:** Mega-Polis → Visualisation → Visualisation Data Tools     
+> **Node ID:** `SvMegapolisDashboardPlotlyScatter`  
+> **Tooltip:** Dashboard Plotly Scatter  
+> **Dependencies:** Outputs a Plotly Express snippet (expects `pandas as pd`, `plotly.express as px`, and optionally `streamlit as st` in the execution environment).
+
+## Functionality
+
+Generates a **Python code snippet (string)** that creates a **Plotly Express scatter plot** from an input DataFrame.
+
+The node:
+1. Serialises the input DataFrame (`df.to_json()`).
+2. Reconstructs it inside the snippet using `pd.DataFrame.from_dict(...)`.
+3. Calls `px.scatter(...)` with the provided feature names.
+4. Assigns the result to a figure variable.
+5. Optionally prepares it for dashboard rendering (e.g., via Streamlit).
+
+It does **not** render the chart inside Blender/Sverchok — the output must be executed in your dashboard runtime.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Figure Name | SvStringsSocket | Name of the Plotly figure variable to create (e.g., `fig_scatter`). Must be linked. |
+| Dataframe | SvStringsSocket | Input Pandas DataFrame. Must be linked. |
+| X Feature | SvStringsSocket | Column name used for X axis. Must be linked. |
+| Y Feature | SvStringsSocket | Column name used for Y axis. Must be linked. |
+
+All inputs must be linked for the node to execute.
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| color | String | None | Optional column name for colour encoding. |
+| size | String | None | Optional column name for marker size. |
+| title | String | "Scatter Plot" | Plot title. |
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dashboard Plotly Scatter | SvStringsSocket | Python code snippet that creates the scatter plot figure. |
+
+## Example
+
+### Create a scatter plot of height vs area
+
+Inputs:
+
+- Figure Name → `"fig_scatter"`
+- Dataframe → DataFrame containing `height` and `area`
+- X Feature → `"height"`
+- Y Feature → `"area"`
+
+Output snippet (conceptually):
+
+```python
+fig_scatter_df = pd.DataFrame.from_dict(<json_data>)
+fig_scatter = px.scatter(
+    fig_scatter_df,
+    x="height",
+    y="area",
+    title="Scatter Plot"
+)
+```
+
+You can then display it using:
+
+```python
+st.plotly_chart(fig_scatter, use_container_width=True)
+```
+
+## Notes / gotchas
+
+- This node outputs **code**, not a Plotly object.
+- All column names must exist in the DataFrame.
+- If `color` or `size` columns are provided, they must also exist in the DataFrame.
+- For large DataFrames, JSON serialisation may generate large code strings.
+- Requires the execution environment to import:
+  ```python
+  import pandas as pd
+  import plotly.express as px
+  ```

@@ -1,0 +1,64 @@
+# Split String
+
+> **Category:** Mega-Polis → Gathering → Gathering Data Tools  
+> **Node ID:** `SvMegapolisSplitString`  
+> **Tooltip:** Split string values using a separator  
+> **Dependencies:** none (standard Python string operations)
+
+## Functionality
+
+Splits incoming string data into smaller parts using a user-defined separator.
+
+The node takes one or more strings, applies a split operation using the specified delimiter, and outputs the resulting list of tokens. This is useful for cleaning attribute fields, parsing CSV-style values embedded in text, or preparing structured inputs for downstream data processing nodes.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| String | SvStringsSocket | Input string or list of strings to be split. |
+| Separator | SvStringsSocket | Delimiter used to split the text (e.g., `,`, `;`, `|`, or space). |
+
+## Parameters
+
+This node has no exposed UI parameters.
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Split | SvStringsSocket | List of tokenized strings produced by splitting the input text using the separator. |
+
+## Example
+
+### Basic workflow
+
+1. Add **Split String** node.
+2. Connect:
+   - String → `"building|residential|highrise"`
+   - Separator → `"|"`
+3. Output:
+   - `["building", "residential", "highrise"]`
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/11_split_string.png)
+
+### Multiple values
+
+Input:
+- String → `["A,B,C", "D,E,F"]`
+- Separator → `","`
+
+Output:
+- `[["A","B","C"], ["D","E","F"]]`
+
+### Typical uses
+
+- Split attribute values imported from GIS/CSV fields
+- Parse tags from OpenStreetMap attributes
+- Clean and restructure text-based datasets before converting to tables
+
+## Notes
+
+- The node uses standard Python string splitting.
+- Works with single strings or lists of strings.
+- If the separator is not found, the original string is returned as a single-item list.
+

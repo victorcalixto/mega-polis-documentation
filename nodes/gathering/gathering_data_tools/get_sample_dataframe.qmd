@@ -1,0 +1,53 @@
+# Get Sample Dataframe
+
+> **Category:** Mega-Polis → Gathering → Gathering Data Tools  
+> **Node ID:** `SvMegapolisGetSampleDataframe`  
+> **Tooltip:** Output a sample (toy) Pandas DataFrame for testing  
+> **Dependencies:** `pandas`, `sklearn`
+
+
+## Functionality
+
+Outputs a **sample (toy) Pandas DataFrame** commonly used for testing and demonstrations.
+
+The node exposes a small curated list of datasets from `sklearn.datasets` and returns the **feature table `X` as a Pandas DataFrame** (the target `y` is not output). 
+
+Available datasets:
+
+- `iris`
+- `california_housing`
+- `diabetes`
+- `digits`
+- `wine` 
+
+## Inputs
+
+This node has **no inputs**. 
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---|---:|---|
+| dataframe | Enum | `iris` | Selects which sample dataset to load from `sklearn.datasets`. |
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dataframe | SvStringsSocket | A **Pandas DataFrame** containing the dataset **features (X)**.|
+
+## Example
+
+### Quick test DataFrame for plotting
+
+1. Add **Get Sample Dataframe**
+2. Set `dataframe = iris`
+3. Connect **Dataframe** output to:
+   - **Seaborn Plot** (for a quick scatter/box/violin), or
+   - **Correlation / Correlation With** (to inspect relationships), or
+   - **Get Pandas Feature** (to extract a column)
+
+### Notes
+
+- This node returns only the **feature** DataFrame (`return_X_y=True, as_frame=True` and then selects the first item, i.e., `X`).
+- Requires `sklearn` available in the environment (the node tries to import `sklearn.datasets`). 

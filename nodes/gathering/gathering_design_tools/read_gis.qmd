@@ -1,0 +1,116 @@
+# Read GIS
+
+> **Category:** Mega-Polis → Gathering → Gathering Design Tools  
+> **Node ID:** `SvMegapolisReadGis`  
+> **Tooltip:** Read GIS file (shapefile, geopackage, and geoJSON)  
+> **Dependencies:** geopandas, osmnx, shapely  
+
+## Functionality
+
+Reads a GIS vector file using GeoPandas (`gpd.read_file`) from either a local **Path** input or a **URL** string input.  
+The node reprojects the dataset using `to_crs(self.projection)`, then separates geometries by type (**Polygon**, **MultiPolygon**, **LineString**, **Point**) and converts them into Sverchok-compatible outputs:
+
+- Vertices formatted as `(x, y, 0)`
+- Edge index pairs for topology reconstruction
+- Feature attribute keys and values
+- Feature IDs
+- The full reprojected GeoDataFrame
+
+Note:
+- MultiLineString and MultiPoint geometries are detected internally but not exported.
+- The projection parameter is passed directly to GeoPandas `.to_crs()`.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Path | SvFilePathSocket | Local path to GIS file (.shp, .gpkg, .geojson, etc.). Used when **filetype_gis = Path** |
+| URL | SvStringsSocket | String treated as a file location and passed to `gpd.read_file(...)`. Used when **filetype_gis = URL** |
+
+**Socket visibility:**  
+- `filetype_gis = Path` → Path visible, URL hidden  
+- `filetype_gis = URL` → URL visible, Path hidden  
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| projection | Int | 4236 | CRS target used in `gdf.to_crs(projection)` |
+| filetype_gis | Enum (Path, URL) | Path | Selects which input socket is active |
+
+## Outputs
+
+### Polygons
+
+| Socket | Type | Description |
+|---|---|---|
+| Polygons_Vertices | SvVerticesSocket | Polygon vertex lists as `(x, y, 0)` |
+| Polygons_Edges | SvStringsSocket | Edge index pairs forming closed rings |
+| Polygons_Keys | SvStringsSocket | Feature property keys |
+| Polygons_Values | SvStringsSocket | Feature property values |
+| Polygons_ID | SvStringsSocket | Feature IDs |
+
+### MultiPolygons
+
+| Socket | Type | Description |
+|---|---|---|
+| MP_Polygons_Vertices | SvVerticesSocket | Flattened vertex lists from multipolygon geometry |
+| MP_Polygons_Edges | SvStringsSocket | Edge index pairs per ring |
+| MP_Polygons_Keys | SvStringsSocket | Feature property keys |
+| MP_Polygons_Values | SvStringsSocket | Feature property values |
+| MP_Polygons_ID | SvStringsSocket | Feature IDs |
+
+### Points
+
+| Socket | Type | Description |
+|---|---|---|
+| Points_Vertices | SvVerticesSocket | Point vertices formatted as `(x, y, 0)` |
+| Points_Keys | SvStringsSocket | Feature property keys |
+| Points_Values | SvStringsSocket | Feature property values |
+| Points_ID | SvStringsSocket | Feature IDs |
+
+### Lines (LineString)
+
+| Socket | Type | Description |
+|---|---|---|
+| Lines_Vertices | SvVerticesSocket | Polyline vertex lists as `(x, y, 0)` |
+| Lines_Edges | SvStringsSocket | Edge pairs connecting consecutive vertices (open polyline) |
+| Lines_Keys | SvStringsSocket | Feature property keys |
+| Lines_Values | SvStringsSocket | Feature property values |
+| Lines_ID | SvStringsSocket | Feature IDs |
+
+### GeoDataFrame
+
+| Socket | Type | Description |
+|---|---|---|
+| Gdf_Out | SvStringsSocket | Reprojected GeoDataFrame object |
+
+## Example
+
+### Local file workflow
+
+1. Set **filetype_gis** to `Path`.
+2. Connect a file path (e.g., `buildings.gpkg`, `roads.geojson`) to the **Path** socket.
+3. Set **projection** to the desired CRS (EPSG integer).
+4. Use:
+   - `Polygons_*` for building footprints
+   - `Lines_*` for roads
+   - `Points_*` for POIs
+   - `Gdf_Out` for attribute-based workflows
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/02_read_gis.png)
+
+
+### URL workflow
+
+1. Set **filetype_gis** to `URL`.
+2. Provide a URL string readable by GeoPandas.
+3. Connect outputs to downstream Mega-Polis analysis or generation nodes.
+
+### Notes
+
+- Output geometry is always 2D with Z set to 0.
+- Attribute keys and values are returned per feature for downstream filtering.
+- CRS conversion happens automatically using the projection parameter.
+
+

@@ -1,0 +1,64 @@
+# Create Dictionary
+
+> **Category:** Mega-Polis → Generation  → Generation Data Tools  
+> **Node ID:** `SvMegapolisCreateDictionary`  
+> **Tooltip:** Create Dictionary  
+> **Dependencies:** none (pure Python)  
+
+## Functionality
+
+Creates a Python **dictionary** from paired input lists of **Keys** and **Values**.
+
+The node combines corresponding elements from both inputs into a single dictionary structure and outputs the resulting key–value mapping for use in downstream workflows (e.g., API parameters, configuration objects, data transformations).
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Keys | SvStringsSocket | List of keys (strings). Must be linked. |
+| Values | SvStringsSocket | List of values corresponding to the keys. Must be linked. |
+
+Both inputs must be linked for the node to execute.
+
+## Parameters
+
+This node has no exposed UI parameters.
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dictionary | SvStringsSocket | A Python dictionary constructed from the provided keys and values. |
+
+## Example
+
+### Create a simple dictionary
+
+Input:
+- Keys → `["name", "height", "landuse"]`
+- Values → `["Tower A", 45, "commercial"]`
+
+Output:
+```
+{
+  "name": "Tower A",
+  "height": 45,
+  "landuse": "commercial"
+}
+```
+
+### Use case: API query parameters
+
+1. Create keys:
+   - `["q", "appid"]`
+2. Create values:
+   - `["Melbourne", "YOUR_API_KEY"]`
+3. Output dictionary:
+   - `{ "q": "Melbourne", "appid": "YOUR_API_KEY" }`
+4. Feed into **Request Data API** node.
+
+## Notes 
+
+- Keys and Values should have the same length. If lengths differ, pairing behavior depends on implementation (likely truncation to shortest list).
+- Keys should be unique to avoid overwriting dictionary entries.
+- Output follows Sverchok list-wrapped data conventions.

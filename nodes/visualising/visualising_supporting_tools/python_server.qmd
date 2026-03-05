@@ -1,0 +1,57 @@
+# Python Server
+
+> **Category:** Mega-Polis → Visualisation  → Visualisation Supporting Tools   
+> **Node ID:** `SvMegapolisPythonServer`  
+> **Tooltip:** Python Server  
+> **Dependencies:** `multiprocessing`, `subprocess`, `sys`, `os`, `webbrowser`, `psutil` 
+
+## Functionality
+
+Starts a simple static file server (Python’s built-in `http.server`) to serve the contents of a chosen folder over HTTP.
+
+When **run** is enabled, the node:
+
+- Reads the **Folder** input (directory to serve)
+- Spawns a separate process that runs:
+
+  `python -m http.server <port> --directory <folder>`
+
+- Opens the browser to `localhost:<port>` 
+
+When **close** is enabled, the node attempts to kill the current process tree using `psutil` (including all child processes).
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Folder | SvStringsSocket | Folder path to be served by the HTTP server (`--directory`). Must be linked.  |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| port | Int | 8800 | Port to run the server on.
+| run | Bool | False | When enabled, spawns the `http.server` process and opens a browser tab. |
+| close | Bool | False | When enabled, kills the current process tree via `psutil` (may terminate Blender if running inside Blender). |
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Output Message | SvStringsSocket | Status message. When run starts, outputs `['Runnning']` (note the spelling). Otherwise `''`.  |
+
+## Example
+
+### Serve a folder on localhost
+
+1. Connect:
+   - **Folder** → `"/tmp/megapolis_export"`
+2. Set:
+   - `port = 8800`
+   - `run = True`
+3. The node starts a server equivalent to:
+   - `python -m http.server 8800 --directory /tmp/megapolis_export`
+4. Your browser opens at:
+   - `localhost:8800`
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/35-visualisation-supporting-tools.png)

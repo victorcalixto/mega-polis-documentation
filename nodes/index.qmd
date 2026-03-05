@@ -1,0 +1,126 @@
+---
+title: "Nodes Overview"
+---
+
+The nodes are organised into structured categories that reflect a coherent computational workflow.  
+Each category represents a distinct operational domain inside the node tree and defines how data is introduced, transformed, computed, and communicated.
+
+The organisation aligns with Sverchok’s tree evaluation logic, where nodes execute when linked, pass structured data downstream, and remain modular and stateless wherever possible  
+(see:[Sverchok Tree Evaluation System](https://nortikin.github.io/sverchok/docs/tree_evaluation_system.html) ).
+
+---
+
+# 1. Gathering
+
+**What they do**
+
+Gathering nodes import and structure external data sources so they can be processed inside the node tree.
+
+They handle:
+
+- GIS vectors (GeoJSON, Shapefile, GeoPackage)
+- Raster DEM files (GeoTIFF)
+- LAS point clouds
+- OSM and street networks
+- Street imagery
+- CSV / JSON files
+- API requests
+- Pandas DataFrames and Series
+
+**Why they exist**
+
+Design computation depends on contextual data. These nodes translate heterogeneous external formats into structured computational objects (arrays, graphs, DataFrames, geometry), ensuring interoperability and reproducibility.
+
+They define the entry point of most workflows.
+
+---
+
+# 2. Analysis
+
+**What they do**
+
+Analysis nodes compute metrics, evaluate spatial relationships, and extract structured information from datasets.
+
+They operate on:
+
+- DEM arrays (terrain attributes)
+- NetworkX graphs (centrality, shortest path)
+- GeoDataFrames and DataFrames (correlation, filtering, indexing)
+- Visibility calculations (isovists)
+- Machine learning pipelines (fit, predict, evaluate)
+- External GIS engines (Whitebox Tools)
+
+**Why they exist**
+
+They convert raw datasets into measurable indicators and quantitative descriptors.  
+This layer separates data ingestion from computational reasoning and supports decision-making through metrics rather than direct geometry production.
+
+---
+
+# 3. Generation
+
+**What they do**
+
+Generation nodes transform computed data into geometry-ready or parametric structures.
+
+They include:
+
+- Coordinate transformations (Lat/Lon ↔ Projected)
+- Face construction from vertices
+- DataFrame reshaping (transpose, filter, mapping)
+- Colormap encoding
+- File format conversion
+- Dictionary construction
+
+**Why they exist**
+
+They bridge analysis and geometry.  
+Metrics and attributes are converted into parameters, mesh structures, or visual encodings that can drive modelling and design exploration.
+
+---
+
+# 4. Visualisation
+
+**What they do**
+
+Visualisation nodes produce interpretative and deployable outputs.
+
+They include:
+
+- Seaborn statistical plots
+- DEM plotting
+- Plotly dashboards
+- Bokeh dashboards
+- Map dashboards
+- Streamlit dashboard assembly
+- WebVR connectors
+- Local Python servers
+
+Many dashboard nodes generate executable Python snippets rather than rendering directly in Blender.
+
+**Why they exist**
+
+Computation must remain inspectable and communicable.  
+These nodes expose analytical results, enable interaction, and support deployment outside the modelling environment.
+
+---
+
+# Structural Logic
+
+The categories reflect a computational separation:
+
+- Data ingestion is isolated from computation  
+- Computation is isolated from transformation  
+- Transformation is isolated from representation  
+- Representation can be deployed independently  
+
+Data types remain explicit across the system:
+
+- Geometry (Vertices, Faces)
+- Graphs (NetworkX)
+- Raster arrays
+- DataFrames / Series
+- JSON structures
+- Dashboard code snippets
+
+

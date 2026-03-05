@@ -1,0 +1,73 @@
+---
+title: Visualising
+---
+
+The Visualising category defines how computed and generated outputs are interpreted, represented, and deployed beyond the internal node graph.
+
+It operates on structured data, geometry, and analytical results, converting them into plots, dashboards, interactive maps, web interfaces, and deployable visual systems.
+
+Visualising is divided into three main groups:
+
+- **Visualising Design Tools**
+- **Visualising Data Tools**
+- **Visualising Supporting Tools**
+
+---
+
+## Visualising Design Tools
+
+This group focuses on spatial and geometry-based representation.
+
+It supports:
+
+- Interactive map visualisation  
+- Mesh-based dashboard rendering  
+- DEM plotting  
+- Web-based spatial display  
+- VR-ready exports  
+
+These tools externalise geometric and spatial outputs, allowing exploration of results in interactive or immersive environments.
+
+---
+
+## Visualising Data Tools
+
+This group focuses on statistical and analytical representation.
+
+It supports:
+
+- Plotly-based dashboards  
+- Bokeh-based dashboards  
+- Seaborn statistical plots  
+- DataFrame visualisation  
+- Chart-based analytical summaries  
+
+These tools transform structured datasets and computed metrics into visual narratives, charts, and interactive analytical interfaces.
+
+---
+
+## Visualising Supporting Tools
+
+This group enables deployment and runtime execution of visual outputs.
+
+It supports:
+
+- Dashboard assembly  
+- Dashboard server execution  
+- Python HTTP server utilities  
+- Code snippet generation for external runtimes  
+
+These tools separate computation from deployment, allowing visual outputs to run in environments such as web servers or interactive dashboard platforms.
+
+---
+
+# Structural Role
+
+The Visualising category ensures:
+
+- Clear separation between computation and representation  
+- Structured transformation of results into interpretable formats  
+- Interactive exploration of analytical and generative outputs  
+- Deployment-ready visual systems beyond the modelling interface  
+
+It completes the computational workflow by making results inspectable, communicable, and externally executable.

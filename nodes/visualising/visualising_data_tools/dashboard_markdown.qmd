@@ -1,0 +1,51 @@
+# Dashboard Markdown
+
+> **Category:** Mega-Polis → Visualisation  → Visualisation Data Tools   
+> **Node ID:** `SvMegapolisDashboardMarkdown`  
+> **Tooltip:** Dashboard Markdown  
+> **Dependencies:** Outputs a Streamlit snippet (expects `streamlit as st` available where the generated code is executed).
+
+## Functionality
+
+Generates a **Python code snippet (string)** that displays a Markdown block in a dashboard runtime.
+
+This node is useful for:
+
+- Titles and section headers  
+- Descriptions of analysis steps  
+- Inline documentation inside dashboards  
+- Reporting results and metrics  
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Markdown | SvStringsSocket | Markdown text to be displayed in the dashboard. Must be linked. |
+
+## Parameters
+
+This node has no exposed UI parameters.
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dashboard Markdown | SvStringsSocket | Python code snippet that displays the Markdown using `st.markdown(...)`. |
+
+## Example
+
+### Display a dashboard title and description
+
+1. Connect:
+   - Markdown → `"# Mega-Polis Dashboard\nThis dashboard shows terrain and street network analysis."`
+2. Output snippet will resemble:
+
+```python
+st.markdown("# Mega-Polis Dashboard\nThis dashboard shows terrain and street network analysis.")
+```
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/34-dashboard-markdown.gif)
+
+## Notes 
+
+- For multiline Markdown, include `\n` line breaks in the input string.

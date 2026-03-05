@@ -1,0 +1,48 @@
+# Linear Model Selection
+
+> **Category:** Mega-Polis → Analysis → Analysis Data Tools   
+> **Node ID:** `SvMegapolisLinearModelSelection`  
+> **Tooltip:** Selection of a Linear Model: Linear, RANSAC, Ridge, ElasticNet, Lasso  
+> **Dependencies:** `sklearn` (imported via `from megapolis.dependencies import sklearn as skl`) 
+
+## Functionality
+
+Creates and outputs a **scikit-learn linear model object** based on the selected method.
+
+The node is a “model factory”:
+- you choose the regression estimator type (Linear / RANSAC / Ridge / ElasticNet / Lasso)
+- the node instantiates the corresponding `sklearn.linear_model.*` object
+- outputs it as a single-item list for use by downstream nodes (e.g., model fit / predict). 
+
+## Inputs
+
+This node has **no input sockets**. 
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| Method (`modelmethod`) | Enum | `linear` | Selects which sklearn estimator is created. 
+
+### Available methods
+
+- `linear` → `skl.linear_model.LinearRegression()` 
+- `ransac` → `skl.linear_model.RANSACRegressor()` 
+- `ridge` → `skl.linear_model.Ridge()` 
+- `elasticnet` → `skl.linear_model.ElasticNet()` 
+- `lasso` → `skl.linear_model.Lasso()` 
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Model | SvVerticesSocket | A single-item list containing the selected sklearn model instance: `[model]`. 
+
+## Example
+
+### Select a Ridge regression model
+
+1. Add **Linear Model Selection** node.
+2. Set **Method** to `ridge`.
+3. Use **Model** output as input to your downstream nodes (e.g., **Model Fit** → **Model Predict**).
+

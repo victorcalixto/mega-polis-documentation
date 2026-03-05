@@ -1,0 +1,78 @@
+# Get Pandas Feature
+
+> **Category:** Mega-Polis → Gathering → Gathering Data Tools  
+> **Node ID:** `SvMegapolisGetPandasFeature`  
+> **Tooltip:** Extract a feature (column) from a Pandas DataFrame  
+> **Dependencies:** `pandas`  
+
+## Functionality
+
+Extracts a single column (feature) from an input **Pandas DataFrame** and outputs it as a separate data stream.
+
+This node is used to isolate specific attributes (e.g., height, name, category) from a table so they can be mapped, filtered, or used to drive geometry and analysis workflows inside Sverchok.
+
+It acts as a bridge between table-based data and list-based node pipelines.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| DataFrame | SvStringsSocket | Input Pandas DataFrame containing the data source. |
+| Feature | SvStringsSocket | Name of the column to extract from the DataFrame. |
+
+## Parameters
+
+This node has no exposed UI parameters.
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Feature Values | SvStringsSocket | Values from the selected column returned as a list-like structure. |
+
+## Example
+
+### Extract building heights
+
+Input:
+- DataFrame → table containing columns: `["name", "height", "levels"]`
+- Feature → `"height"`
+
+Output:
+- `[12.5, 18.0, 9.3, 25.1, ...]`
+
+These values can then be used to:
+- Drive extrusion heights
+- Perform statistical analysis
+- Filter geometry based on thresholds
+
+### Extract categorical attribute
+
+Input:
+- DataFrame → table with column `"landuse"`
+- Feature → `"landuse"`
+
+Output:
+- `["residential", "commercial", "industrial", ...]`
+
+Useful for:
+- Classification workflows
+- Color mapping
+- Grouping and filtering operations
+
+## Typical uses
+
+- Extract numeric attributes (height, area, population)
+- Extract categorical fields (landuse, building type)
+- Feed values into:
+  - Geometry scaling
+  - Filtering nodes
+  - Analysis pipelines
+  - Visualization mapping
+
+## Notes
+
+- The feature name must match a column present in the DataFrame.
+- If the column does not exist, the output may be empty or produce an error downstream.
+- Output is structured for easy use in list-based Sverchok workflows.
+

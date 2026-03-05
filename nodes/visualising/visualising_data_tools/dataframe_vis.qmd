@@ -1,0 +1,67 @@
+# DataFrame Vis
+
+> **Category:** Mega-Polis → Visualisation  → Visualisation Data Tools   
+> **Node ID:** `SvMegapolisDataframeVis`  
+> **Tooltip:** DataFrame Visualisation  
+> **Dependencies:** `pandas` (for DataFrame handling), `streamlit` (for rendering in dashboard runtime)
+
+## Functionality
+
+Generates a **Python code snippet (string)** that visualises a Pandas DataFrame in a dashboard environment (typically Streamlit).
+
+The node:
+
+1. Serialises the input DataFrame.
+2. Reconstructs it inside the generated snippet.
+3. Displays it using a dashboard-compatible display method (e.g., `st.dataframe()` or `st.write()`).
+
+This node does **not** render the table inside Blender/Sverchok. It outputs code intended to be executed in a dashboard environment.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dataframe | SvStringsSocket | Input Pandas DataFrame to visualise. Must be linked. |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| Height | Int | 400 | Display height for the DataFrame in the dashboard. |
+| Width | Int | 800 | Display width for the DataFrame in the dashboard. |
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dashboard Dataframe | SvStringsSocket | Python code snippet that displays the DataFrame in a dashboard runtime. |
+
+## Example
+
+### Visualise a CSV dataset
+
+1. Use **Read CSV** to load a dataset.
+2. Connect `CSV DF` → **Dataframe**.
+3. Set:
+   - Height → `500`
+   - Width → `1000`
+4. The output will resemble:
+
+```python
+df_vis = pd.DataFrame.from_dict(<json_data>)
+st.dataframe(df_vis, height=500, width=1000)
+```
+
+Execute this in a Streamlit app to display the table interactively.
+
+## Notes / gotchas
+
+- This node outputs code only; it does not render inside Blender.
+- Requires Streamlit available in the execution environment:
+
+```python
+import streamlit as st
+```
+
+- Large DataFrames may impact dashboard performance.
+- Serialisation uses JSON conversion, which may affect complex data types.

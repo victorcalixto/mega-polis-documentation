@@ -1,0 +1,55 @@
+# Dashboard Bokeh Figure
+
+> **Category:** Mega-Polis → Visualisation  → Visualisation Data Tools   
+> **Node ID:** `SvMegapolisDashboardBokehFigure`  
+> **Tooltip:** Dashboard Bokeh Figure  
+> **Dependencies:** `bokeh` (figure), `numpy`
+
+## Functionality
+
+Creates a **Bokeh figure** object for dashboard visualisation workflows.
+
+This node acts as a lightweight “figure factory”:
+- You choose a figure type (currently: `scatter`)
+- the node creates a `bokeh.plotting.figure` instance with preset parameters
+- the created figure is output so other nodes can add glyphs (points/lines) and later render it in a dashboard context
+
+## Inputs
+
+This node has **no input sockets**.
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| Figure Type (`figuretype`) | Enum | `scatter` | Selects which figure configuration is created. |
+| width | Int | 600 | Width of the Bokeh figure. |
+| height | Int | 400 | Height of the Bokeh figure. |
+| title | String | `Figure` | Plot title. |
+| x_axis_label | String | `x` | X axis label. |
+| y_axis_label | String | `y` | Y axis label. |
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Figure | SvStringsSocket | Bokeh figure object (Python object) wrapped for downstream nodes. |
+
+## Example
+
+### Create a scatter figure and add points downstream
+
+1. Add **Dashboard Bokeh Figure**.
+2. Set:
+   - Figure Type → `scatter`
+   - width → `800`
+   - height → `500`
+   - title → `My Scatter Plot`
+3. Connect **Figure** output into a downstream node that adds glyphs (e.g., scatter points from a DataFrame).
+4. Render the final figure in your dashboard pipeline.
+
+## Notes / gotchas
+
+- This node only creates the *figure container*. It does not plot data by itself.
+- Output is a Python Bokeh figure object; downstream nodes must understand this object type.
+- If you plan to render in Streamlit or a web app, ensure your environment includes Bokeh and the appropriate embedding component.

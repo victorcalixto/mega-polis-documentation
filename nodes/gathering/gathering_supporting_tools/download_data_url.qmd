@@ -1,0 +1,64 @@
+# Download Data Url
+
+> **Category:** Mega-Polis → Gathering → Gathering Supporting Tools  
+> **Node ID:** `SvMegapolisDownloadDataUrl`  
+> **Tooltip:** Download data from a weblink (Uniform Resource Locator - URL)  
+> **Dependencies:** `wget` (via `from megapolis.dependencies import wget`), `os` 
+
+## Functionality
+
+Downloads one or more files from the web (HTTP/HTTPS) and saves them into a target folder.
+
+The node:
+- Requires both **URL** and **Folder** inputs to be linked (otherwise it does nothing)
+- Uses `os.path.basename(url)` to keep the original filename
+- Downloads using `wget.download(url, f"{folder}/{name}")`
+- Outputs a simple status message on completion :contentReference[oaicite:1]{index=1}  
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| URL | SvStringsSocket | A single URL string or a list of URL strings to download. 
+| Folder | SvStringsSocket | Output folder path where the file(s) will be saved. 
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| download | Bool | False | When enabled, triggers the download process. 
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Output Message | SvStringsSocket | A list containing a status string after download. 
+
+## Example
+
+### Download a single file
+
+1. Connect:
+   - **URL** → `"https://example.com/data.geojson"`
+   - **Folder** → `"/tmp"`
+2. Enable **download**.
+3. Result file saved as:
+
+`/tmp/data.geojson`
+
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/12_download_data_url.gif)
+
+### Download multiple files
+
+1. Connect:
+   - **URL** → `["https://example.com/a.tif", "https://example.com/b.tif"]`
+   - **Folder** → `"/tmp"`
+2. Enable **download**.
+3. Files saved as:
+
+`/tmp/a.tif`  
+`/tmp/b.tif`
+
+
+

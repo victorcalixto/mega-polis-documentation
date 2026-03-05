@@ -1,0 +1,49 @@
+# Dashboard Dataframe
+
+> **Category:** Mega-Polis → Visualisation → Visualisation Data Tools  
+> **Node ID:** `SvMegapolisDashboardDataframe`  
+> **Tooltip:** Dashboard Dataframe  
+> **Dependencies:** `pandas`, `streamlit`
+
+## Functionality
+
+Creates a **Streamlit dataframe component** for dashboard visualisation workflows.
+
+This node acts as a **dataframe-to-dashboard adapter**:
+- it receives a **Pandas DataFrame**
+- converts the dataframe to a JSON representation
+- generates a **Streamlit snippet** that reconstructs and displays the dataframe using `st.dataframe()`
+
+The resulting snippet is designed to be combined with other dashboard nodes when assembling a full **Streamlit dashboard application**.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dataframe | SvStringsSocket | Pandas DataFrame object coming from upstream data-processing nodes. |
+
+## Parameters
+
+This node has **no parameters**.
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dashboard Dataframe | SvStringsSocket | Streamlit code snippet that reconstructs and renders the dataframe in the dashboard. |
+
+## Example
+
+### Display a dataframe inside a dashboard
+
+1. Generate a dataframe using a node such as **Get Sample Dataframe** or another dataframe-producing node.
+2. Connect the dataframe output to **Dashboard Dataframe**.
+3. Connect **Dashboard Dataframe** output to a dashboard assembly node.
+4. Run the Streamlit dashboard to visualise the dataframe interactively.
+
+The generated Streamlit snippet will be similar to:
+
+```python
+st.dataframe(pd.DataFrame.from_dict(<dataframe_as_json>))
+
+![])(https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/33-dashboard-dataframe.gif)

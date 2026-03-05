@@ -1,0 +1,13 @@
+---
+title: "Nodes"
+---
+
+- Gathering
+
+- Analysing 
+
+- Generating
+
+- Visualising
+
+

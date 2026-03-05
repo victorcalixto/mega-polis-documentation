@@ -1,0 +1,70 @@
+# Get Feature Index
+
+> **Category:** Mega-Polis → Analysis → Analysis Data Tools   
+> **Node ID:** `SvMegapolisGetFeatureIndex`  
+> **Tooltip:** Get the index position of a feature (column) in a DataFrame  
+> **Dependencies:** `pandas`  
+
+## Functionality
+
+Returns the **index position** (integer location) of a given **column name** within a Pandas DataFrame.
+
+Internally, the node searches the DataFrame’s column list and retrieves the positional index corresponding to the specified feature name.
+
+This is useful when:
+
+- You need positional indexing instead of label-based indexing  
+- You are working with NumPy arrays derived from DataFrames  
+- You need to dynamically reference columns by position  
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dataframe | SvStringsSocket | Input Pandas DataFrame. Required for execution. |
+| Feature | SvStringsSocket | Column name whose positional index should be retrieved. |
+
+Both inputs must be linked for the node to execute.
+
+## Parameters
+
+This node has no exposed UI parameters.
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Feature Index | SvStringsSocket | Integer index position of the specified column in the DataFrame. |
+
+## Example
+
+### Find column index
+
+Given a DataFrame:
+
+| id | height | landuse |
+|----|--------|---------|
+
+Column positions:
+
+- id → 0  
+- height → 1  
+- landuse → 2  
+
+If:
+- Feature → `"height"`
+
+Output:
+- `1`
+
+### Use case: positional extraction
+
+1. Get feature index for `"height"`.
+2. Use that index to access values from a NumPy array version of the DataFrame.
+3. Drive geometry or analysis using positional indexing.
+
+## Notes
+
+- The feature name must exactly match a column in the DataFrame.
+- If the column does not exist, the node may raise an error.
+- Output follows Sverchok list-wrapped data conventions.

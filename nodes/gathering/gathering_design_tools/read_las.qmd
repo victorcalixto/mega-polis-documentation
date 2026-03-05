@@ -1,0 +1,62 @@
+# Read LAS
+
+> **Category:** Mega-Polis → Gathering → Gathering Design Tools  
+> **Node ID:** `SvMegapolisReadLas`  
+> **Tooltip:** Read a LAS Point Cloud File  
+> **Dependencies:** `laspy`, `numpy`
+
+## Functionality
+
+Reads a **LAS** point cloud file using `laspy`, converts point coordinates into real-world XYZ values (applying LAS header **scales** and **offsets**), and outputs:
+
+- 3D point coordinates (as Sverchok vertices)
+- the decimated LAS point record data
+- intensity values
+- classification codes
+- per-point RGBA colours derived from a built-in LAS classification palette
+
+A **subsampling_factor** parameter allows you to reduce point count by taking every *N*th point for performance.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Path | SvFilePathSocket | Path to a `.las` file. |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| subsampling_factor | Int | 1 | Decrease the number of points by a factor. Uses Python slicing `points[::subsampling_factor]`. Minimum = 1. |
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Points | SvVerticesSocket | Decimated point coordinates as `(x, y, z)` float values computed from LAS integer coords using header scales/offsets. |
+| Points Data | SvStringsSocket | Decimated LAS point record (`las[::subsampling_factor]`). |
+| Intensity | SvStringsSocket | Decimated intensity values (cast to `uint32`). |
+| Classification | SvStringsSocket | Decimated classification codes (as a list). |
+| Classification Colours | SvStringsSocket | Decimated RGBA colours per point, mapped from classification codes via an internal lookup table. |
+
+## Example
+
+### Minimal workflow
+
+1. Add **Read LAS** node.
+2. Connect a `.las` file to **Path**.
+3. (Optional) Set **subsampling_factor** to e.g. `10` for faster previews.
+4. Connect:
+   - **Points** → your point viewer / point-to-mesh workflow
+   - **Classification Colours** → viewer colour input (if available in your pipeline)
+   - **Intensity** / **Classification** → downstream filtering / analysis nodes
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/05_read_las.png)
+
+### Notes
+
+- Coordinate conversion uses:  
+  `X = las.X * scale_x + offset_x` (same for Y, Z).
+- The classification colour palette is hard-coded in the node (common LAS classes like ground, vegetation, building, water, etc.).
+- Very large LAS files can be heavy—use **subsampling_factor** early in the graph.
+

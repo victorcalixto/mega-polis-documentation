@@ -1,0 +1,75 @@
+# Filter LAS
+
+> **Category:** Mega-Polis → Generation  → Generation Design Tools  
+> **Node ID:** `SvMegapolisFilterLas`  
+> **Tooltip:** Filter Las  
+> **Dependencies:** `laspy`, `numpy`
+
+## Functionality
+
+Filters a LAS point cloud by **classification** and outputs:
+
+- the filtered LAS point record (subset of points)
+- the corresponding XYZ coordinates as Sverchok vertices
+
+The node reads the LAS file header (scales + offsets) from the **Path** input, then uses the incoming **Points Data** (LAS point record / point cloud data) to select only points whose `classification` matches the chosen class. Coordinates are computed as:
+
+- `X = points_filtered.X * scale_x + offset_x`
+- `Y = points_filtered.Y * scale_y + offset_y`
+- `Z = points_filtered.Z * scale_z + offset_z`
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Path | SvFilePathSocket | Path to the `.las` file (used to read header scales/offsets). Must be linked. |
+| Points Data | SvStringsSocket | LAS point data object (expects attributes like `.points` and `.classification`). Must be linked. |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| classification | Enum | `ground` | Select which LAS classification to filter. |
+
+### Available classifications
+
+- `never`
+- `uncla`
+- `ground`
+- `low_vegetation`
+- `med_vegetation`
+- `high_vegetation`
+- `building`
+- `noise`
+- `reserved`
+- `water`
+- `rail`
+- `road`
+- `overlap`
+- `wire_guard`
+- `wire_conductor`
+- `transmission`
+- `wire_connector`
+- `bridge`
+- `high_noise`
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Points Data Filtered | SvStringsSocket | Filtered point record subset (`points_filtered`). |
+| Points | SvVerticesSocket | Filtered point coordinates as `[[x, y, z], ...]` wrapped as `[coordinates]`. |
+
+## Example
+
+### Filter only “ground” points
+
+1. Use **Read LAS** to load a LAS file and output **Points Data** (point record data).
+2. Connect:
+   - **Read LAS → Points Data** → **Points Data**
+   - The same LAS file path → **Path**
+3. Set **classification** to `ground`.
+4. Use:
+   - **Points** to visualise or mesh only ground points
+   - **Points Data Filtered** for downstream attribute workflows
+

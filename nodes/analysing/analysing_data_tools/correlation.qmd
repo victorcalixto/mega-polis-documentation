@@ -1,0 +1,65 @@
+# Correlation
+
+> **Category:** Mega-Polis → Analysis → Analysis Data Tools   
+> **Node ID:** `SvMegapolisCorrelation`  
+> **Tooltip:** Correlates a Dataframe using the methods; pearson, kendall, or spearman  
+> **Dependencies:** `pandas`  
+
+## Functionality
+
+Computes a **correlation matrix** from an input **Pandas DataFrame** using `df.corr(method=...)`.
+
+You can choose the correlation method:
+
+- `pearson`
+- `kendall`
+- `spearman`
+
+The output is the resulting correlation DataFrame wrapped in a single-item list for Sverchok output.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dataframe | SvStringsSocket | Input Pandas DataFrame. The node does nothing unless this socket is linked. |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| Method (`correlation`) | Enum | `pearson` | Correlation method passed to `df.corr(method=self.correlation)`. |
+
+### Available methods
+
+- `pearson`
+- `kendall`
+- `spearman`
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Correlation | SvStringsSocket | Correlation matrix as a Pandas DataFrame (returned as `[data]`). |
+
+## Example
+
+### Compute Pearson correlation
+
+1. Prepare a Pandas DataFrame (e.g., from **Read CSV** → `CSV DF`, or from any other node producing a DataFrame).
+2. Connect it to **Dataframe**.
+3. Set **Method** to `pearson`.
+4. The output **Correlation** will be a DataFrame where each column is correlated against every other column.
+
+### Compute Spearman correlation (rank-based)
+
+1. Same setup as above.
+2. Set **Method** to `spearman`.
+3. Use the result for monotonic (rank) relationships.
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/20_correlation.png)
+
+## Notes / gotchas
+
+- `df.corr(...)` only operates on **numeric** columns. Non-numeric columns are ignored by Pandas.
+- The output is wrapped as a list (`[data]`). If a downstream node expects a raw DataFrame, you may need to unwrap it there (depending on your Sverchok data conventions).
+```

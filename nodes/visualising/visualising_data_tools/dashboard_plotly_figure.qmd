@@ -1,0 +1,56 @@
+# Dashboard Plotly Figure
+
+> **Category:** Mega-Polis → Visualisation  → Visualisation Data Tools   
+> **Node ID:** `SvMegapolisDashboardPlotlyFigure`  
+> **Tooltip:** Dashboard Plotly Figure  
+> **Dependencies:** Outputs a Streamlit snippet (expects `streamlit as st` and a Plotly figure variable to exist in the runtime where the snippet is executed).
+
+## Functionality
+
+Generates a **Python code snippet (string)** to display an existing Plotly figure inside a **Streamlit** dashboard using:
+
+```python
+st.plotly_chart(<figure_name>, use_container_width=True)
+```
+
+This node does **not** render anything inside Blender/Sverchok. It only outputs the code to be executed in your dashboard environment.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Figure Name | SvStringsSocket | Name of the Plotly figure variable (e.g., `fig`, `fig_scatter`). Must be linked. |
+
+## Parameters
+
+This node has no exposed UI parameters.
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Plotly Figure | SvStringsSocket | Python code snippet that displays the given figure name via `st.plotly_chart(...)`. |
+
+## Example
+
+### Display a Plotly figure named `fig_scatter`
+
+1. Ensure your dashboard code creates a Plotly figure object, e.g.:
+   ```python
+   fig_scatter = px.scatter(df, x="height", y="area")
+   ```
+2. In Mega-Polis, set **Figure Name** to:
+   - `fig_scatter`
+3. The node outputs:
+   ```python
+   st.plotly_chart(fig_scatter, use_container_width=True)
+   ```
+4. Paste/execute this snippet in the same Streamlit app (where `fig_scatter` exists).
+
+## Notes / gotchas
+
+- The figure name must match an existing variable in your dashboard runtime; the node does not create the figure.
+- Requires Streamlit available as `st` in the execution context:
+  ```python
+  import streamlit as st
+  ```

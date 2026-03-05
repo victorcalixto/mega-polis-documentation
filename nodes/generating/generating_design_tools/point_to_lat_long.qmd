@@ -1,0 +1,53 @@
+# Point to Lat/Lon
+
+> **Category:** Mega-Polis → Generation  → Generation Design Tools  
+> **Node ID:** `SvMegapolisPointToLatLon`  
+> **Tooltip:** Convert point coordinates to Latitude/Longitude  
+> **Dependencies:** `pyproj` (Transformer)  
+
+## Functionality
+
+Converts planar/projected point coordinates into **geographic latitude/longitude** using a CRS transformation.
+
+This node is useful when:
+
+- You have points in a projected coordinate system (e.g., UTM, local EPSG)
+- You need to convert them back to WGS84-style geographic coordinates for:
+  - API queries (OSMnx / Mapillary / web services)
+  - data export
+  - georeferenced reporting
+
+Internally, the node uses `pyproj.Transformer` to transform `(x, y)` coordinates from an input EPSG projection to a geographic CRS.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Points | SvVerticesSocket | Input point(s) as `(x, y, z)`; only `x,y` are used for conversion. |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| Projection (EPSG) | Int | 4236 | EPSG code describing the *source* CRS of the input points. |
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Longitude | SvStringsSocket | Longitude values (X in geographic CRS) for each input point. |
+| Latitude | SvStringsSocket | Latitude values (Y in geographic CRS) for each input point. |
+
+## Example
+
+### Convert UTM points to Lat/Lon
+
+1. Provide projected points (e.g., UTM meters) to **Points**.
+2. Set **Projection (EPSG)** to your UTM zone EPSG (e.g., `32755` for UTM zone 55S in Australia).
+3. Read **Longitude** and **Latitude** outputs.
+4. Use these values as inputs for:
+   - OSM queries
+   - Mapillary downloads
+   - API requests requiring geographic coordinates
+
+

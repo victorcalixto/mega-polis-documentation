@@ -1,0 +1,49 @@
+# Model Predict
+
+> **Category:** Mega-Polis → Analysis → Analysis Data Tools     
+> **Node ID:** `SvMegapolisModelPredict`  
+> **Tooltip:** Model Predict  
+> **Dependencies:** `sklearn`  
+
+## Functionality
+
+Generates predictions from a fitted scikit-learn model.
+
+When **run** is enabled, the node:
+1. Retrieves the fitted model instance (expects list-wrapped input)
+2. Uses `model.predict(X)` to compute predictions for the given feature matrix **X**
+3. Outputs the prediction values
+
+When **run** is disabled, the node outputs an empty string.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Model | SvStringsSocket | A fitted scikit-learn model instance (expected list-wrapped; code uses `model = self.model[0]`). Must be linked. |
+| X | SvStringsSocket | Feature matrix to predict on. Must be linked. |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| run | Bool | False | When enabled, performs prediction using `model.predict(X)`. |
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Predictions | SvStringsSocket | Predicted values returned by the model. When run is enabled, outputs `predictions`; otherwise outputs `''`. |
+
+## Example
+
+### Predict from a fitted model
+
+1. Create a model using **Linear Model Selection**.
+2. Fit it using **Model Fit** (run enabled) and get **Model Out**.
+3. Connect:
+   - Model Out → **Model**
+   - X (new data or test data) → **X**
+4. Enable **run**.
+5. Read **Predictions** and pass them to **Model Evaluate** (with ground-truth y) or use them to drive geometry/visualisation.
+

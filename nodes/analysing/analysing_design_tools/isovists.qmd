@@ -1,0 +1,59 @@
+# Isovists
+
+> **Category:** Mega-Polis → Analysis → Analysis Design Tools   
+> **Node ID:** `SvMegapolisIsovists`  
+> **Tooltip:** Creates a 2D Isovists based on a 2d Context  
+> **Dependencies:** `visilibity`, `math`
+
+## Functionality
+
+Computes a **2D isovist (visibility polygon)** from an observer **Origin** within a 2D **Context** using the `visilibity` library.
+
+Internally, the node:
+
+1. Builds a *circular boundary polygon* (“walls”) centered at the observer, approximated by **NumVertices** points on a circle of **Radius**.
+2. Converts the input **Context** shapes into `visilibity.Polygon` obstacles (treated as “holes”).
+3. Builds a `visilibity.Environment` with the circular boundary + obstacle polygons.
+4. Computes the visibility polygon via `vis.Visibility_Polygon(observer, env, epsilon)`.
+5. Outputs:
+   - the generated circle boundary vertices (for reference)
+   - the resulting isovist polygon vertices
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| NumVertices | SvStringsSocket | Number of vertices used to approximate the circular boundary polygon (integer). |
+| Radius | SvStringsSocket | Radius of the circular boundary (float). |
+| Origin | SvVerticesSocket | Observer origin as a 3D point `(x, y, z)`. Only `x,y` are used for visibility; `z` is preserved in the circle output. |
+| Context | SvVerticesSocket | 2D obstacle polygons. Expected as a list of shapes, where each shape is a list of points `[[x, y, (z optional)], ...]`. Only `x,y` are used to build visilibity polygons. |
+
+## Parameters
+
+This node has no exposed UI parameters.
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Vertices Out | SvVerticesSocket | The generated circular boundary vertices (a single list of `(x, y, z)` points). |
+| Isovists Vertices | SvVerticesSocket | The computed isovist polygon vertices (a single list of `[x, y, 0]` points). |
+
+## Example
+
+### Minimal workflow
+
+1. Provide:
+   - **Origin**: `[(0, 0, 0)]`
+   - **Radius**: `["50"]`
+   - **NumVertices**: `["180"]` (or 90/360 depending on fidelity)
+2. Provide **Context** as obstacle polygons, for example one rectangular “room obstacle”:
+   - `[[[5, 5, 0], [10, 5, 0], [10, 10, 0], [5, 10, 0]]]`
+3. Read:
+   - **Isovists Vertices** to draw the visibility polygon
+   - **Vertices Out** to display the circle boundary used as the environment outer wall
+
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/16_isovists.png)
+
+

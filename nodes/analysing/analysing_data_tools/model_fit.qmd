@@ -1,0 +1,56 @@
+# Model Fit
+
+> **Category:** Mega-Polis → Analysis → Analysis Data Tools    
+> **Node ID:** `SvMegapolisModelFit`  
+> **Tooltip:** Model Fit  
+> **Dependencies:** `sklearn`  
+
+## Functionality
+
+Fits a scikit-learn model using a train/test split.
+
+When **run** is enabled, the node:
+1. Splits **X** and **y** into training and test sets using `sklearn.model_selection.train_test_split` (with `shuffle=True` and the chosen `train_size`)
+2. Fits the model on the training set (`model.fit(X_train, y_train)`)
+3. Generates predictions for `X_test` (`data.predict(X_test)`) *(predictions are computed but not output)*
+4. Outputs the fitted model instance as **Model Out**
+
+When **run** is disabled, the node outputs an empty string.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Model | SvStringsSocket | A scikit-learn estimator instance (expected list-wrapped; the code uses `model = self.model[0]`). Must be linked. |
+| X | SvStringsSocket | Feature matrix for training/testing. Must be linked. |
+| y | SvStringsSocket | Target values. Must be linked. |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| run | Bool | False | When enabled, performs the train/test split and fits the model. |
+| train_size | Float | 0.30 | Proportion of samples used for training in `train_test_split(...)` (min 0.01, max 0.99). |
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Model Out | SvStringsSocket | The fitted model instance wrapped as a list: `[data]` when run is enabled; otherwise an empty string. |
+
+## Example
+
+### Fit a model (basic workflow)
+
+1. Use **Linear Model Selection** (or any other model factory node) to create a model.
+2. Prepare:
+   - **X** (feature matrix)
+   - **y** (target vector)
+3. Connect:
+   - Model → **Model**
+   - X → **X**
+   - y → **y**
+4. Enable **run** and set **train_size** (e.g., `0.70` for 70% training).
+5. Use **Model Out** as input to your **Model Predict** / **Model Evaluate** nodes.
+
+

@@ -1,0 +1,82 @@
+# Sequential Colormap
+
+> **Category:** Mega-Polis → Generation  → Generation Data Tools  
+> **Node ID:** `SvMegapolisSequentialColormap`  
+> **Tooltip:** Generate a sequential colormap  
+> **Dependencies:** `matplotlib`, `numpy`
+
+## Functionality
+
+Generates a list of **RGB (or RGBA) colour values** from a selected Matplotlib **sequential colormap**.
+
+The node takes a numeric input range and maps values to colours using a selected colormap scheme. This is useful for visualising:
+
+- Terrain attributes  
+- Network centrality values  
+- Statistical results  
+- Scalar fields  
+
+The output colours can be passed to geometry or visualisation nodes to colour vertices, edges, or meshes.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Values | SvStringsSocket | List of numeric values to be mapped to colours. Must be linked. |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| Colormap | Enum | `viridis` | Name of the Matplotlib sequential colormap used for mapping. |
+| Normalize | Bool | True | If enabled, normalizes input values to the 0–1 range before applying the colormap. |
+
+### Available colormaps
+
+Examples include:
+
+- `viridis`
+- `plasma`
+- `inferno`
+- `magma`
+- `cividis`
+- `Greys`
+- `Blues`
+- `Greens`
+- `Oranges`
+- `Reds`
+- `YlGnBu`
+- `YlOrRd`
+
+*(Full list depends on Matplotlib version.)*
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Colours | SvVerticesSocket | List of RGB (or RGBA) colour values corresponding to input values. |
+
+## Example
+
+### Colour terrain by slope
+
+1. Compute slope using **DEM Terrain Attributes**.
+2. Connect **Attribute Values** to **Values**.
+3. Select:
+   - Colormap → `inferno`
+4. Use **Colours** to:
+   - Assign vertex colours
+   - Drive mesh material attributes
+
+### Visualise network centrality
+
+1. Compute centrality values.
+2. Feed them into **Sequential Colormap**.
+3. Apply colours to edges or nodes in a visualisation pipeline.
+
+## Notes 
+
+- If **Normalize** is enabled, values are scaled between min and max before colour mapping.
+- Ensure input values are numeric.
+- Output format is typically a list of tuples `(r, g, b, a)` with values in the range `[0, 1]`.
+- Large value lists may impact performance during visual updates.

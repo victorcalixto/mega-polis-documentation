@@ -1,0 +1,72 @@
+---
+title: Generating
+---
+
+The Generating category defines how computed data is transformed into parametric structures, geometric constructs, and design-ready representations inside the computational environment.
+
+It operates on outputs produced during the Analysing phase and converts structured metrics, attributes, and datasets into geometry-compatible or visually encoded forms.
+
+Generating is divided into three main groups:
+
+- **Generating Design Tools**
+- **Generating Data Tools**
+- **Generating Supporting Tools**
+
+---
+
+## Generating Design Tools
+
+This group focuses on geometry construction and spatial transformation.
+
+It supports:
+
+- Coordinate transformations (e.g., geographic to projected systems)  
+- Face construction from vertex sets  
+- Geometry assembly from structured data  
+- Attribute-to-geometry mappings  
+- Spatial preparation for modelling workflows  
+
+These operations translate numerical or spatial information into parametric geometry components compatible with the node tree.
+
+---
+
+## Generating Data Tools
+
+This group focuses on transforming structured datasets into forms usable for modelling, mapping, or downstream visualisation.
+
+It supports:
+
+- DataFrame filtering and mapping  
+- Column transformations and restructuring  
+- Transposition and reorganisation of tabular data  
+- Colormap encoding  
+- Structured attribute preparation  
+
+These operations reshape analytical outputs into structured inputs that can drive geometry, colour encoding, or interactive interfaces.
+
+---
+
+## Generating Supporting Tools
+
+This group provides auxiliary utilities that assist in preparing or organising data for generative workflows.
+
+It supports:
+
+- File path retrieval  
+- File format conversion (e.g., to GeoJSON or GeoDataFrame)  
+- Dictionary creation and structured object preparation  
+
+These tools ensure interoperability between formats and streamline transitions between computational steps.
+
+---
+
+# Structural Role
+
+The Generating category ensures:
+
+- Conversion of computed metrics into actionable design parameters  
+- Clear separation between analysis and geometric construction  
+- Structured preparation of data for modelling and visual encoding  
+- Compatibility with downstream visualisation and deployment layers  
+
+It forms the bridge between quantitative evaluation and parametric representation within the computational workflow.

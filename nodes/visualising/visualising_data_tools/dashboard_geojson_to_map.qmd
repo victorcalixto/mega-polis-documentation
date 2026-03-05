@@ -1,0 +1,60 @@
+# Dashboard GeoJSON To Map
+
+> **Category:** Mega-Polis → Visualisation  → Visualisation Data Tools   
+> **Node ID:** `SvMegapolisDashboardGeojsonToMap`  
+> **Tooltip:** Dashboard Geojson to Map  
+> **Dependencies:** `json`
+
+## Functionality
+
+Generates a **Python code snippet (string)** that adds a GeoJSON layer to an existing dashboard map object.
+
+The node:
+1. Reads a **Map Name** (string variable name that represents a map object in your dashboard code).
+2. Reads a **GeoJson** input (GeoJSON serialized as a JSON string).
+3. Parses the GeoJSON using `json.loads(...)`.
+4. Outputs a snippet in the form:
+
+```python
+<map_name>.add_geojson(<geojson_object>)
+```
+
+This node does **not** render a map inside Blender/Sverchok. It outputs code intended to be executed in your dashboard runtime (e.g., Streamlit/Folium/other map wrapper that exposes `.add_geojson(...)`).
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Map Name | SvStringsSocket | Name of the map variable in your dashboard code (e.g., `m`, `my_map`). Must be linked. |
+| GeoJson | SvStringsSocket | GeoJSON content as a JSON string (FeatureCollection / Feature / Geometry). Must be linked. |
+
+## Parameters
+
+This node has no exposed UI parameters.
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dashboard GeoJson | SvStringsSocket | A Python code string that calls `<map_name>.add_geojson(<geojson_object>)`. |
+
+## Example
+
+### Add a buildings GeoJSON layer to a dashboard map
+
+1. Create a dashboard map object upstream and store it in a variable (for example, `m`).
+2. Connect:
+   - **Map Name** → `"m"`
+   - **GeoJson** → a valid GeoJSON string (e.g., a FeatureCollection)
+3. The output will be a snippet like:
+
+```python
+m.add_geojson({"type":"FeatureCollection","features":[ ... ]})
+```
+
+Paste/execute the snippet inside the same dashboard environment where `m` exists.
+
+## Notes / gotchas
+
+- The node uses `json.loads(geojson_in)`. This expects **GeoJson** to be a valid JSON string. If your upstream node already provides a Python dict/object instead of a JSON string, `json.loads(...)` will fail.
+- The output assumes your map object has an `.add_geojson(...)` method. Ensure your dashboard map wrapper supports this API.

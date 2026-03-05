@@ -1,0 +1,69 @@
+# Dashboard Create Plotly
+
+> **Category:** Mega-Polis → Visualisation  → Visualisation Data Tools   
+> **Node ID:** `SvMegapolisDashboardCreatePlotly`  
+> **Tooltip:** Dashboard Create Plotly  
+> **Dependencies:** `json` (node code). **Requires** `pandas as pd` and `plotly.express as px` available in the execution environment where the generated code will run. :contentReference[oaicite:0]{index=0}
+
+## Functionality
+
+Builds a **Python code snippet (string)** that recreates a Plotly Express figure from an input DataFrame and a dictionary of Plotly parameters.
+
+The node does **not** render a Plotly figure inside Blender/Sverchok. Instead, it outputs code like:
+
+- create a DataFrame from a JSON-serialised version of the input DataFrame
+- call `px.<plot_type>(...)` with the provided parameters
+- assign the result to a variable name based on **Figure Name**
+
+Supported plot types:
+
+- `line`, `scatter`, `bar`, `pie`, `area`, `timeline` :contentReference[oaicite:1]{index=1}
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Figure Name | SvStringsSocket | Name used to build Python variable names in the generated snippet (e.g., `fig1`). :contentReference[oaicite:2]{index=2} |
+| Dataframe | SvStringsSocket | Input Pandas DataFrame (passed through and serialised using `df.to_json()` inside the node). :contentReference[oaicite:3]{index=3} |
+| Parameters Plot | SvStringsSocket | Dictionary of Plotly Express keyword parameters (e.g., `{ "x": "col_x", "y": "col_y" }`). :contentReference[oaicite:4]{index=4} |
+
+> The node returns early unless **all three inputs are linked**. :contentReference[oaicite:5]{index=5}
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---|---:|---|
+| Plot Type (`plottype`) | Enum | `line` | Chooses which Plotly Express constructor is used: `px.<plot_type>(...)`. :contentReference[oaicite:6]{index=6} |
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Dashboard Plotly Figure | SvStringsSocket | A Python code string that, when executed in a Python environment with `pd` and `px`, creates the Plotly figure. :contentReference[oaicite:7]{index=7} |
+
+## Example
+
+### Create a scatter plot snippet
+
+Inputs:
+
+- Figure Name → `"fig_scatter"`
+- Dataframe → (a Pandas DataFrame containing columns `height` and `area`)
+- Parameters Plot → `{ "x": "height", "y": "area" }`
+- Plot Type → `scatter`
+
+Output (conceptually) will be a snippet like:
+
+- `fig_scatter_ = pd.DataFrame.from_dict(<data_as_dict>)`
+- `fig_scatter = px.scatter(fig_scatter_, x='height', y='area')` :contentReference[oaicite:8]{index=8}
+
+You can then paste/run the output string inside your Streamlit / Jupyter / dashboard runner that has:
+
+- `import pandas as pd`
+- `import plotly.express as px`
+
+## Notes / gotchas
+
+- **It outputs code, not a figure object.** You need to execute the string elsewhere to get a Plotly figure. :contentReference[oaicite:9]{index=9}
+- **All parameter values are wrapped as strings** in the generated call (it formats every kwarg as `key='value'`). This can be limiting for non-string parameters (e.g., booleans, lists, dicts, numbers). :contentReference[oaicite:10]{index=10}
+- The node serialises the DataFrame with `df.to_json()` and reconstructs it using `pd.DataFrame.from_dict(...)` on the parsed JSON. Depending on DataFrame shape/orientation, you may need to adjust this strategy if you see unexpected column/index behaviour. :contentReference[oaicite:11]{index=11}

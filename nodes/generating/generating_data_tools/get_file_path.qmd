@@ -1,0 +1,61 @@
+# Get File Path
+
+> **Category:** Mega-Polis → Generation  → Generation Data Tools  
+> **Node ID:** `SvMegapolisGetFilePath`  
+> **Tooltip:** Get File Path  
+> **Dependencies:** none  
+
+## Functionality
+
+Provides a file path string for use in downstream nodes.
+
+This node acts as a simple utility wrapper around Blender’s file path selector, allowing you to:
+
+- Select a file from disk
+- Output its full path as a string
+- Feed that path into other Mega-Polis nodes (e.g., Read CSV, Read GIS, Read DEM, Read LAS, Download Data URL)
+
+It is primarily a convenience node for building clean, reusable workflows.
+
+## Inputs
+
+This node has **no input sockets**.
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| File Path | FilePath | — | Blender file selector used to choose a file from disk. |
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Path | SvStringsSocket | The selected file path as a string. |
+
+## Example
+
+### Load a CSV file
+
+1. Add **Get File Path**.
+2. Use the file browser to select:
+   - `/data/buildings.csv`
+3. Connect:
+   - **Path → Path** input of **Read CSV**
+4. Execute downstream node.
+
+### Typical uses
+
+- Provide file path to:
+  - Read CSV
+  - Read JSON
+  - Read GIS
+  - Read DEM
+  - Read LAS
+- Centralise file references in complex node graphs.
+
+## Notes
+
+- Outputs the absolute path selected in Blender.
+- If no file is selected, downstream nodes may fail or return early.
+- Useful for making node graphs more readable and modular.

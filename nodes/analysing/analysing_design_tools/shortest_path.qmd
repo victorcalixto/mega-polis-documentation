@@ -1,0 +1,77 @@
+# Shortest Path
+
+> **Category:** Mega-Polis → Analysis  
+> **Node ID:** `SvMegapolisShortestPath`  
+> **Tooltip:** Provides shortest path between two points based on length or travel time  
+> **Dependencies:** `osmnx`, `networkx`, `pandas`  
+
+## Functionality
+
+Computes the **shortest route** between an **Origin** and **Destination** on an input street **NetworkX graph** (typically from OSMnx).
+
+The node:
+1. Adds edge speeds and travel times to the graph (`ox.add_edge_speeds`, `ox.add_edge_travel_times`)
+2. Optionally overrides default speeds using user-defined values for `residential`, `secondary`, and `tertiary` roads
+3. Finds the nearest graph nodes to the input coordinates (`ox.nearest_nodes`)
+4. Computes a shortest path with `ox.shortest_path(..., weight=<method>)`
+5. Extracts route edge attributes, sums travel time + distance, and converts the route geometry to Sverchok-friendly vertices/edges
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Nx Graph | SvStringsSocket | NetworkX graph (OSMnx graph). Must be linked. |
+| Origin | SvVerticesSocket | Origin point as `(x, y, z)`; only `x,y` are used for routing. Must be linked. |
+| Destination | SvVerticesSocket | Destination point as `(x, y, z)`; only `x,y` are used for routing. Must be linked. |
+
+## Parameters
+
+| Name | Type | Default | Description |
+|---|---:|---:|---|
+| Method (`pathtype`) | Enum | `length` | Route weight used by `ox.shortest_path`: `length` (distance) or `travel_time` (time). |
+| Residential St. max.Speed | Int | 35 | Speed (km/h) used to override OSMnx edge speeds for `residential` highway type. |
+| Secondary St. max.Speed | Int | 50 | Speed (km/h) used to override OSMnx edge speeds for `secondary` highway type. |
+| Tertiary St. max.Speed | Int | 60 | Speed (km/h) used to override OSMnx edge speeds for `tertiary` highway type. |
+
+### Available methods
+
+- `length`
+- `travel_time`
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Path ID | SvStringsSocket | The route as a list of node IDs (`route`). |
+| Path | SvVerticesSocket | Route geometry as a list of vertices `[(x, y, 0), ...]` (polyline). |
+| Path Edges | SvStringsSocket | Edge index pairs connecting consecutive path vertices. |
+| Time | SvStringsSocket | Total travel time as `[minutes, "min"]` (computed from summed `travel_time` seconds / 60). |
+| Distance | SvStringsSocket | Total distance as `[kilometers, "km"]` (computed from summed `length` meters / 1000). |
+| Features | SvStringsSocket | List of per-edge attribute dictionaries returned by `ox.utils_graph.get_route_edge_attributes(...)`. |
+
+## Example
+
+### Shortest route by travel time
+
+1. Load a graph with **Load Street Network**.
+2. Connect:
+   - `Graph` → **Nx Graph**
+   - Origin point → **Origin** (e.g., `(144.9631, -37.8136, 0)`)
+   - Destination point → **Destination**
+3. Set **Method** to `travel_time`.
+4. (Optional) Adjust road speeds (Residential/Secondary/Tertiary).
+5. Use:
+   - **Path** + **Path Edges** to draw the route polyline
+   - **Time** and **Distance** for summary stats
+   - **Features** for debugging/inspection (edge attributes like geometry, highway type, etc.)
+
+### Shortest route by distance
+
+Same setup, but set **Method** to `length`.
+
+
+![](https://www.victorcalixto.xyz/phd_thesis/images/tool-dev/18_shortest_path.gif)
+
+## Notes 
+
+- The node uses `ox.nearest_nodes(G, x, y)` with `x=origin_x`, `y=origin_y` (same for destination). Make sure your Origin/Destination coordinates match the graph CRS/units (usually lon/lat for unprojected OSMnx graphs).

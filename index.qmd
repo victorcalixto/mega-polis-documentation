@@ -1,0 +1,30 @@
+---
+title: "MEGA-POLIS"
+description: "A Free and Open Source Data-Driven Urban Design Toolkit for Sverchok"
+repo-actions: false
+code-annotations: hover
+about:
+  id: about
+  template: jolla
+  image: image4.png
+  image-shape: rectangle
+  image-width: 40em
+  links:
+    - icon: download
+      text: Download
+      href: https://github.com/victorcalixto/mega-polis/archive/refs/heads/main.zip
+    - icon: github
+      text: GitHub
+      href: https://github.com/victorcalixto/mega-polis
+---
+::: {#about}
+:::
+
+{{< pagebreak >}}
+
+::: {.column-page}
+
+<center>A free and open source data-driven urban design toolkit. This is an add-on for [Blender](https://www.blender.org/)/[Sverchok](https://nortikin.github.io/sverchok/docs/main.html).</center> 
+
+
+

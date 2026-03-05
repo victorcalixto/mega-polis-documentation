@@ -1,0 +1,61 @@
+# Model Evaluate
+
+> **Category:** Mega-Polis → Analysis → Analysis Data Tools    
+> **Node ID:** `SvMegapolisModelEvaluate`  
+> **Tooltip:** Model Evaluate  
+> **Dependencies:** `sklearn`  
+
+## Functionality
+
+Evaluates regression predictions using **scikit-learn metrics**.
+
+Given:
+- a model object (not directly used for scoring here),
+- prediction values,
+- and ground-truth `y` values,
+
+the node computes:
+
+- **R² score** (`sklearn.metrics.r2_score`)
+- **RMSE** (`sklearn.metrics.mean_squared_error(..., squared=False)`)
+
+and is intended to output both scores.
+
+## Inputs
+
+| Socket | Type | Description |
+|---|---|---|
+| Model | SvStringsSocket | A fitted model object (expects list-wrapped: `model = self.model[0]`). Currently not used in the calculations. |
+| Predictions | SvStringsSocket | Predicted values (expects list-wrapped: `predictions = self.predictions[0]`). |
+| y | SvStringsSocket | Ground-truth values `y_test` (the code uses `y_test = self.y` without indexing). |
+
+All three inputs must be linked for the node to execute.
+
+## Parameters
+
+This node has no exposed UI parameters.
+
+## Outputs
+
+| Socket | Type | Description |
+|---|---|---|
+| r2 | SvStringsSocket | Intended to output the computed R² score. |
+| rmse | SvStringsSocket | Intended to output the computed RMSE. |
+
+## Example
+
+### Evaluate a regression model
+
+1. Use your pipeline to produce:
+   - a fitted **Model**
+   - **Predictions** from that model
+   - ground-truth **y** values
+2. Connect:
+   - Model → **Model**
+   - Predictions → **Predictions**
+   - y_test → **y**
+3. Read outputs:
+   - **r2** for goodness-of-fit
+   - **rmse** for error magnitude in the target units
+
+
